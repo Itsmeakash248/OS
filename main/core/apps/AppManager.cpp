@@ -3,6 +3,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 #include "settings/SettingsApp.hpp"
+#include "files/FilesApp.hpp"
 #include "core/tasks/gui/GuiTask.hpp"
 #include "core/ui/DE/DE.hpp"
 
@@ -22,6 +23,7 @@ AppManager::AppManager() { m_mutex = xSemaphoreCreateMutex(); }
 
 void AppManager::init() {
   registerApp(std::make_shared<SettingsApp>());
+  registerApp(std::make_shared<FilesApp>());
   if (!m_executor) { m_executor = new AppExecutor(); static_cast<AppExecutor *>(m_executor)->start(); }
 }
 
