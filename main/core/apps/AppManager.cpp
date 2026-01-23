@@ -6,8 +6,6 @@
 #include "core/tasks/gui/GuiTask.hpp"
 #include "core/ui/DE/DE.hpp"
 
-static const char *TAG = "AppManager";
-
 namespace System::Apps {
 class AppExecutor : public System::Task {
 public:

@@ -84,7 +84,7 @@ public:
     lv_label_set_text(m_statusLabel, "Scanning...");
     
     // Mock scan result after 2 seconds
-    lv_timer_t * timer = lv_timer_create([](lv_timer_t * t) {
+    lv_timer_create([](lv_timer_t * t) {
         auto * instance = (BluetoothSettings *)lv_timer_get_user_data(t);
         if (instance && instance->m_list) {
             lv_obj_clean(instance->m_list);

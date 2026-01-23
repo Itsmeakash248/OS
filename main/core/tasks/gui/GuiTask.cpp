@@ -10,7 +10,6 @@
 #include "core/ui/DE/DE.hpp"
 #include "core/ui/theming/ThemeEngine.hpp"
 
-static const char *TAG = "GuiTask";
 SemaphoreHandle_t GuiTask::xGuiSemaphore = nullptr;
 
 GuiTask::GuiTask() : System::Task("gui_task", 10 * 1024, 5, 1) {

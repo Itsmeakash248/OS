@@ -99,7 +99,13 @@ esp_err_t SystemManager::initGuiState() {
 }
 
 void SystemManager::mount_storage_helper(const char *p, const char *l, wl_handle_t *h, bool f) {
-  esp_vfs_fat_mount_config_t cfg = { .format_if_mount_failed = f, .max_files = 5, .allocation_unit_size = CONFIG_WL_SECTOR_SIZE };
+  esp_vfs_fat_mount_config_t cfg = {
+    .format_if_mount_failed = f,
+    .max_files = 5,
+    .allocation_unit_size = CONFIG_WL_SECTOR_SIZE,
+    .disk_status_check_enable = false,
+    .use_one_fat = false,
+  };
   if (esp_vfs_fat_spiflash_mount_rw_wl(p, l, &cfg, h) != ESP_OK) {
     ESP_LOGE(TAG, "Failed to mount %s", p);
   } else {
