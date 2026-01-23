@@ -1,0 +1,51 @@
+#pragma once
+
+#include "esp_err.h"
+#include "lvgl.h"
+#include "wear_levelling.h"
+
+namespace System {
+class SystemManager {
+public:
+  static SystemManager &getInstance();
+
+  esp_err_t initHardware();
+  esp_err_t initGuiState();
+
+  wl_handle_t getSystemWlHandle() const { return m_wl_handle_system; }
+  wl_handle_t getDataWlHandle() const { return m_wl_handle_data; }
+
+  bool isSafeMode() const { return m_isSafeMode; }
+
+  lv_subject_t &getBrightnessSubject() { return m_brightness_subject; }
+  lv_subject_t &getThemeSubject() { return m_theme_subject; }
+  lv_subject_t &getRotationSubject() { return m_rotation_subject; }
+  lv_subject_t &getUptimeSubject() { return m_uptime_subject; }
+  lv_subject_t &getShowFpsSubject() { return m_show_fps_subject; }
+  lv_subject_t &getWallpaperEnabledSubject() { return m_wallpaper_enabled_subject; }
+
+private:
+  SystemManager() = default;
+  ~SystemManager() = default;
+  SystemManager(const SystemManager &) = delete;
+  SystemManager &operator=(const SystemManager &) = delete;
+
+  esp_err_t mountStorage();
+  static void mount_storage_helper(const char *path,
+                                   const char *partition_label,
+                                   wl_handle_t *wl_handle,
+                                   bool format_if_failed);
+
+  wl_handle_t m_wl_handle_system = WL_INVALID_HANDLE;
+  wl_handle_t m_wl_handle_data = WL_INVALID_HANDLE;
+  bool m_isSafeMode = false;
+
+  lv_subject_t m_brightness_subject;
+  lv_subject_t m_theme_subject;
+  lv_subject_t m_rotation_subject;
+  lv_subject_t m_uptime_subject;
+  lv_subject_t m_show_fps_subject;
+  lv_subject_t m_wallpaper_enabled_subject;
+};
+
+} // namespace System
