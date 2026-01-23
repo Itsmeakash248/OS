@@ -29,7 +29,7 @@ public:
         m_page = Settings::create_page_container(m_container);
         
         lv_obj_t *backBtn = nullptr;
-        m_header = Settings::create_header(m_page, "Files", &backBtn);
+        m_header = Settings::create_header(m_page, "", &backBtn);
         m_backBtn = backBtn;
         
         // Add a Home button
@@ -174,12 +174,14 @@ private:
         lv_obj_t * dropdown = lv_dropdown_create(btn);
         lv_obj_set_size(dropdown, lv_dpx(40), lv_dpx(35));
         lv_obj_add_flag(dropdown, LV_OBJ_FLAG_FLOATING);
-        lv_obj_align(dropdown, LV_ALIGN_RIGHT_MID, -lv_dpx(5), 0);
+        lv_obj_align(dropdown, LV_ALIGN_RIGHT_MID, 0, 0);
         
         lv_dropdown_set_options(dropdown, "Copy\nCut\nRename\nDelete");
         lv_dropdown_set_text(dropdown, LV_SYMBOL_SETTINGS);
         lv_dropdown_set_symbol(dropdown, NULL);
         lv_dropdown_set_selected_highlight(dropdown, false);
+        lv_dropdown_set_dir(dropdown, LV_DIR_LEFT);
+        lv_obj_set_style_max_height(lv_dropdown_get_list(dropdown), lv_dpx(150), 0);
 
         // Styling
         lv_obj_set_style_bg_opa(dropdown, LV_OPA_TRANSP, 0);
