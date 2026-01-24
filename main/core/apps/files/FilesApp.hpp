@@ -13,6 +13,10 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <string.h>
+#include <errno.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_timer.h"
 
 namespace System {
 namespace Apps {
@@ -106,6 +110,67 @@ private:
 
     std::string m_currentPath;
     std::stack<std::string> m_history;
+    Task* m_guiTask = nullptr;
+    uint32_t m_lastFeed = 0;
+
+    lv_obj_t *m_progressMbox = nullptr;
+    lv_obj_t *m_progressBar = nullptr;
+    lv_obj_t *m_progressLabel = nullptr;
+
+    void feedWatchdog() {
+        uint32_t now = (uint32_t)(esp_timer_get_time() / 1000);
+        if (now - m_lastFeed >= 100) {
+            if (!m_guiTask) m_guiTask = TaskManager::getInstance().getTask("gui_task");
+            if (m_guiTask) m_guiTask->heartbeat();
+            vTaskDelay(pdMS_TO_TICKS(1));
+            m_lastFeed = now;
+        }
+    }
+
+    void showProgressDialog(const char* title) {
+        m_progressMbox = lv_msgbox_create(NULL);
+        lv_msgbox_add_title(m_progressMbox, title);
+        
+        lv_obj_t * cont = lv_msgbox_get_content(m_progressMbox);
+        lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_COLUMN);
+        
+        m_progressLabel = lv_label_create(cont);
+        lv_obj_set_width(m_progressLabel, lv_pct(100));
+        lv_label_set_long_mode(m_progressLabel, LV_LABEL_LONG_DOT);
+        lv_label_set_text(m_progressLabel, "Initialising...");
+
+        m_progressBar = lv_bar_create(cont);
+        lv_obj_set_width(m_progressBar, lv_pct(100));
+        lv_bar_set_range(m_progressBar, 0, 100);
+        lv_bar_set_value(m_progressBar, 0, LV_ANIM_OFF);
+        
+        lv_refr_now(NULL);
+    }
+
+    void updateProgress(int percent, const char* text) {
+        if (m_progressBar) lv_bar_set_value(m_progressBar, percent, LV_ANIM_OFF);
+        if (m_progressLabel && text) {
+            // Only show the filename part if it's a long path
+            const char* name = strrchr(text, '/');
+            lv_label_set_text(m_progressLabel, name ? name + 1 : text);
+        }
+        
+        static uint32_t last_refr = 0;
+        uint32_t now = (uint32_t)(esp_timer_get_time() / 1000);
+        if (now - last_refr >= 50) {
+            lv_refr_now(NULL);
+            last_refr = now;
+        }
+    }
+
+    void closeProgressDialog() {
+        if (m_progressMbox) {
+            lv_msgbox_close(m_progressMbox);
+            m_progressMbox = nullptr;
+            m_progressBar = nullptr;
+            m_progressLabel = nullptr;
+        }
+    }
 
     // Helper to convert LVGL path to VFS path
     std::string toVfsPath(const std::string& lvPath) {
@@ -150,6 +215,7 @@ private:
         char fn[256];
         bool hasItems = false;
         while (lv_fs_dir_read(&dir, fn, sizeof(fn)) == LV_FS_RES_OK) {
+            feedWatchdog();
             if (fn[0] == '\0') break;
             bool is_dir = (fn[0] == '/');
             const char *name = is_dir ? fn + 1 : fn;
@@ -177,7 +243,7 @@ private:
         lv_obj_align(dropdown, LV_ALIGN_RIGHT_MID, 0, 0);
         
         lv_dropdown_set_options(dropdown, "Copy\nCut\nRename\nDelete");
-        lv_dropdown_set_text(dropdown, LV_SYMBOL_SETTINGS);
+        lv_dropdown_set_text(dropdown, LV_SYMBOL_BARS);
         lv_dropdown_set_symbol(dropdown, NULL);
         lv_dropdown_set_selected_highlight(dropdown, false);
         lv_dropdown_set_dir(dropdown, LV_DIR_LEFT);
@@ -187,7 +253,6 @@ private:
         lv_obj_set_style_bg_opa(dropdown, LV_OPA_TRANSP, 0);
         lv_obj_set_style_border_width(dropdown, 0, 0);
         lv_obj_set_style_shadow_width(dropdown, 0, 0);
-        lv_obj_set_style_pad_all(dropdown, 0, 0);
         
         lv_obj_add_event_cb(dropdown, [](lv_event_t *e) {
             lv_event_code_t code = lv_event_get_code(e);
@@ -294,6 +359,10 @@ private:
     }
 
     int copyFile(const char *src, const char *dst) {
+        struct stat st;
+        long totalSize = 0;
+        if (stat(src, &st) == 0) totalSize = st.st_size;
+
         FILE *fsrc = fopen(src, "rb");
         if (!fsrc) return -1;
         FILE *fdst = fopen(dst, "wb");
@@ -301,8 +370,19 @@ private:
 
         char buf[4096];
         size_t n;
+        long copied = 0;
         while ((n = fread(buf, 1, sizeof(buf), fsrc)) > 0) {
-            fwrite(buf, 1, n, fdst);
+            if (fwrite(buf, 1, n, fdst) != n) {
+                fclose(fsrc);
+                fclose(fdst);
+                return -1;
+            }
+            copied += n;
+            if (totalSize > 0) {
+                int percent = (int)(copied * 100 / totalSize);
+                updateProgress(percent, src);
+            }
+            feedWatchdog();
         }
         fclose(fsrc);
         fclose(fdst);
@@ -314,21 +394,27 @@ private:
         if (stat(src, &st) != 0) return -1;
 
         if (S_ISDIR(st.st_mode)) {
-            mkdir(dst, 0777);
+            updateProgress(0, src);
+            if (mkdir(dst, 0777) != 0 && errno != EEXIST) return -1;
             DIR *d = opendir(src);
             if (!d) return -1;
             struct dirent *p;
+            int res = 0;
             while ((p = readdir(d))) {
+                feedWatchdog();
                 if (!strcmp(p->d_name, ".") || !strcmp(p->d_name, "..")) continue;
                 std::string subSrc = src; if (subSrc.back() != '/') subSrc += "/"; subSrc += p->d_name;
                 std::string subDst = dst; if (subDst.back() != '/') subDst += "/"; subDst += p->d_name;
-                copyRecursive(subSrc.c_str(), subDst.c_str());
+                if (copyRecursive(subSrc.c_str(), subDst.c_str()) != 0) {
+                    res = -1;
+                    break;
+                }
             }
             closedir(d);
+            return res;
         } else {
-            copyFile(src, dst);
+            return copyFile(src, dst);
         }
-        return 0;
     }
 
     void pasteItem() {
@@ -358,7 +444,15 @@ private:
             }
             cb.clear();
         } else {
-            copyRecursive(srcPath.c_str(), destPath.c_str());
+            showProgressDialog("Copying");
+            
+            if (copyRecursive(srcPath.c_str(), destPath.c_str()) != 0) {
+                lv_obj_t * mb = lv_msgbox_create(NULL);
+                lv_msgbox_add_title(mb, "Error");
+                lv_msgbox_add_text(mb, "Copy failed.");
+                lv_msgbox_add_close_button(mb);
+            }
+            closeProgressDialog();
         }
         refreshList();
     }
@@ -369,6 +463,8 @@ private:
         struct dirent *p;
         int r = 0;
         while ((p = readdir(d))) {
+            updateProgress(0, path);
+            feedWatchdog();
             if (!strcmp(p->d_name, ".") || !strcmp(p->d_name, "..")) continue;
             std::string subPath = path; if (subPath.back() != '/') subPath += "/"; subPath += p->d_name;
             struct stat st;
@@ -387,7 +483,11 @@ private:
         std::string fullPath = toVfsPath(m_currentPath);
         if (fullPath.back() != '/') fullPath += "/";
         fullPath += name;
+        
+        showProgressDialog("Deleting");
         int res = isDir ? removeRecursive(fullPath.c_str()) : unlink(fullPath.c_str());
+        closeProgressDialog();
+        
         if (res != 0) {
             lv_obj_t * mb = lv_msgbox_create(NULL);
             lv_msgbox_add_title(mb, "Error");

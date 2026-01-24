@@ -12,7 +12,7 @@
 
 SemaphoreHandle_t GuiTask::xGuiSemaphore = nullptr;
 
-GuiTask::GuiTask() : System::Task("gui_task", 10 * 1024, 5, 1) {
+GuiTask::GuiTask() : System::Task("gui_task", 20 * 1024, 5, 1) {
   if (!xGuiSemaphore) xGuiSemaphore = xSemaphoreCreateRecursiveMutex();
 }
 
