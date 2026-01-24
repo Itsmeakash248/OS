@@ -39,12 +39,6 @@ const char *ToString(ThemeType type) {
 void ApplyGlobal(lv_theme_t *th, lv_obj_t *obj) {
   LV_UNUSED(th);
 
-  if (lv_obj_check_type(obj, &lv_label_class) ||
-      lv_obj_check_type(obj, &lv_textarea_class) ||
-      lv_obj_check_type(obj, &lv_button_class)) {
-    lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, 0);
-  }
-
   if (lv_obj_check_type(obj, &lv_textarea_class)) {
     VirtualKeyboard::getInstance().register_input_area(obj);
   }

@@ -101,7 +101,6 @@ private:
     lv_obj_t *usageHeader = lv_label_create(content);
     lv_label_set_text(usageHeader, "Data Usage:");
     lv_obj_set_style_margin_top(usageHeader, lv_dpx(15), 0);
-    lv_obj_set_style_text_font(usageHeader, &lv_font_montserrat_14, 0);
 
     lv_obj_t *usageCont = lv_obj_create(content);
     lv_obj_set_size(usageCont, lv_pct(100), LV_SIZE_CONTENT);
@@ -173,7 +172,6 @@ private:
     lv_obj_t *clientsHeader = lv_label_create(content);
     lv_label_set_text(clientsHeader, "Connected Clients (0):");
     lv_obj_set_style_margin_top(clientsHeader, lv_dpx(15), 0);
-    lv_obj_set_style_text_font(clientsHeader, &lv_font_montserrat_14, 0);
 
     lv_subject_add_observer_obj(&ConnectivityManager::getInstance().getHotspotClientsSubject(),
       [](lv_observer_t *o, lv_subject_t *s) {
@@ -183,7 +181,6 @@ private:
 
     m_clientsCont = lv_obj_create(content);
     lv_obj_set_size(m_clientsCont, lv_pct(100), LV_SIZE_CONTENT);
-    lv_obj_set_style_min_height(m_clientsCont, lv_dpx(40), 0);
     lv_obj_set_flex_flow(m_clientsCont, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_style_pad_all(m_clientsCont, lv_dpx(5), 0);
 
@@ -209,7 +206,6 @@ private:
             } else {
               lv_label_set_text_fmt(name_label, LV_SYMBOL_WIFI " Device %d", client.aid);
             }
-            lv_obj_set_style_text_font(name_label, &lv_font_montserrat_14, 0);
 
             lv_obj_t * info_label = lv_label_create(item);
             const char * rssi_str = "Excellent";
@@ -228,7 +224,6 @@ private:
                                     rssi_str, (int)(d/60), (int)(d%60));
             }
             lv_obj_set_style_text_color(info_label, lv_palette_main(LV_PALETTE_GREY), 0);
-            lv_obj_set_style_text_font(info_label, &lv_font_montserrat_10, 0);
           }
         }
       }, 2000, this);
@@ -285,7 +280,6 @@ private:
     lv_obj_t *advLabel = lv_label_create(content);
     lv_label_set_text(advLabel, "Advanced Settings:");
     lv_obj_set_style_margin_top(advLabel, lv_dpx(15), 0);
-    lv_obj_set_style_text_font(advLabel, &lv_font_montserrat_14, 0);
 
     // Channel
     lv_obj_t *channelCont = lv_obj_create(content);

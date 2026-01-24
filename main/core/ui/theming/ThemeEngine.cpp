@@ -79,7 +79,7 @@ void ThemeEngine::apply_theme(ThemeType theme, lv_display_t *disp) {
   std::vector<lv_theme_t *> new_themes_vec;
 
   lv_theme_t *base_th = lv_theme_default_init(disp, cfg.primary, cfg.secondary,
-                                              cfg.dark, &lv_font_montserrat_14);
+                                              cfg.dark, LV_FONT_DEFAULT);
   new_themes_vec.push_back(base_th);
 
   lv_theme_t *global_th = lv_theme_create();

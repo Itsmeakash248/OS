@@ -25,10 +25,6 @@ void DE::apply_glass(lv_obj_t *obj, int32_t blur) {
 lv_obj_t *DE::create_dock_btn(lv_obj_t *parent, const char *icon, int32_t w, int32_t h) {
   lv_obj_t *btn = lv_button_create(parent);
   lv_obj_set_size(btn, w, h);
-  lv_obj_set_style_max_width(btn, lv_dpx(64), 0);
-  lv_obj_set_style_max_height(btn, lv_dpx(64), 0);
-  lv_obj_set_style_min_width(btn, lv_dpx(32), 0);
-  lv_obj_set_style_min_height(btn, lv_dpx(32), 0);
   lv_obj_set_style_radius(btn, lv_dpx(6), 0);
   lv_obj_t *img = lv_image_create(btn);
   lv_image_set_src(img, icon);
@@ -109,6 +105,7 @@ void DE::init() {
 
   window_container = lv_obj_create(screen);
   lv_obj_remove_style_all(window_container);
+  lv_obj_remove_flag(window_container, LV_OBJ_FLAG_SCROLLABLE);
   lv_obj_set_width(window_container, lv_pct(100));
   lv_obj_set_flex_grow(window_container, 1);
 
@@ -140,10 +137,6 @@ void DE::init() {
 
 void DE::configure_panel_style(lv_obj_t *panel) {
   lv_obj_set_size(panel, lv_pct(80), lv_pct(60));
-  lv_obj_set_style_max_width(panel, lv_dpx(450), 0);
-  lv_obj_set_style_max_height(panel, lv_dpx(600), 0);
-  lv_obj_set_style_min_width(panel, lv_dpx(200), 0);
-  lv_obj_set_style_min_height(panel, lv_dpx(150), 0);
   lv_obj_set_style_pad_all(panel, 0, 0);
   lv_obj_set_style_radius(panel, lv_dpx(10), 0);
   lv_obj_set_style_border_width(panel, 0, 0);
@@ -209,7 +202,7 @@ void DE::create_quick_access_panel() {
                         LV_FLEX_ALIGN_CENTER);
 
   lv_obj_t *theme_btn = lv_button_create(theme_cont);
-  lv_obj_set_size(theme_btn, lv_dpx(40), lv_dpx(40));
+  lv_obj_set_size(theme_btn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
   lv_obj_set_style_radius(theme_btn, LV_RADIUS_CIRCLE, 0);
   lv_obj_t *theme_icon = lv_image_create(theme_btn);
   lv_image_set_src(theme_icon, LV_SYMBOL_IMAGE);
@@ -218,10 +211,6 @@ void DE::create_quick_access_panel() {
   theme_label = lv_label_create(theme_cont);
   lv_label_set_text(theme_label,
                     Themes::ToString(ThemeEngine::get_current_theme()));
-  const lv_font_t *small_font = lv_theme_get_font_small(theme_label);
-  if (small_font) {
-    lv_obj_set_style_text_font(theme_label, small_font, 0);
-  }
 
   lv_subject_add_observer_obj(
       &System::SystemManager::getInstance().getThemeSubject(),
@@ -246,17 +235,13 @@ void DE::create_quick_access_panel() {
                         LV_FLEX_ALIGN_CENTER);
 
   lv_obj_t *rot_btn = lv_button_create(rot_cont);
-  lv_obj_set_size(rot_btn, lv_dpx(40), lv_dpx(40));
+  lv_obj_set_size(rot_btn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
   lv_obj_set_style_radius(rot_btn, LV_RADIUS_CIRCLE, 0);
   lv_obj_t *rot_icon = lv_image_create(rot_btn);
   lv_image_set_src(rot_icon, LV_SYMBOL_REFRESH);
   lv_obj_center(rot_icon);
 
   lv_obj_t *rot_label = lv_label_create(rot_cont);
-  const lv_font_t *rot_small_font = lv_theme_get_font_small(rot_label);
-  if (rot_small_font) {
-    lv_obj_set_style_text_font(rot_label, rot_small_font, 0);
-  }
   lv_label_bind_text(rot_label,
                      &System::SystemManager::getInstance().getRotationSubject(),
                      "%d°");
@@ -282,8 +267,6 @@ void DE::create_quick_access_panel() {
     lv_obj_t *slider = lv_slider_create(slider_cont);
     lv_obj_set_flex_grow(slider, 1);
     lv_obj_set_height(slider, lv_pct(70));
-    lv_obj_set_style_max_height(slider, lv_dpx(12), 0);
-    lv_obj_set_style_min_height(slider, lv_dpx(4), 0);
     lv_slider_set_range(slider, 0, 255);
     lv_slider_bind_value(
         slider, &System::SystemManager::getInstance().getBrightnessSubject());
@@ -355,8 +338,6 @@ void DE::create_status_bar() {
   status_bar = lv_obj_create(screen);
   lv_obj_remove_style_all(status_bar);
   lv_obj_set_size(status_bar, lv_pct(100), lv_pct(7));
-  lv_obj_set_style_max_height(status_bar, lv_dpx(40), 0);
-  lv_obj_set_style_min_height(status_bar, lv_dpx(24), 0);
   lv_obj_set_style_pad_hor(status_bar, lv_dpx(4), 0);
   lv_obj_clear_flag(status_bar, LV_OBJ_FLAG_SCROLLABLE);
 
@@ -424,8 +405,6 @@ void DE::create_dock() {
   dock = lv_obj_create(screen);
   lv_obj_remove_style_all(dock);
   lv_obj_set_size(dock, lv_pct(90), lv_pct(14));
-  lv_obj_set_style_max_height(dock, lv_dpx(80), 0);
-  lv_obj_set_style_min_height(dock, lv_dpx(40), 0);
   lv_obj_set_style_pad_hor(dock, lv_dpx(4), 0);
   lv_obj_set_style_radius(dock, lv_dpx(8), 0);
   lv_obj_set_style_margin_bottom(dock, lv_dpx(4), 0);

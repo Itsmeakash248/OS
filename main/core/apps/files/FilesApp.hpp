@@ -38,7 +38,7 @@ public:
         
         // Add a Home button
         lv_obj_t *homeBtn = lv_button_create(m_header);
-        lv_obj_set_size(homeBtn, lv_dpx(30), lv_dpx(30));
+        lv_obj_set_size(homeBtn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
         lv_obj_t *homeLabel = lv_label_create(homeBtn);
         lv_label_set_text(homeLabel, LV_SYMBOL_HOME);
         lv_obj_center(homeLabel);
@@ -49,7 +49,7 @@ public:
 
         // Add a New Folder button
         lv_obj_t *mkdirBtn = lv_button_create(m_header);
-        lv_obj_set_size(mkdirBtn, lv_dpx(30), lv_dpx(30));
+        lv_obj_set_size(mkdirBtn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
         lv_obj_t *mkdirLabel = lv_label_create(mkdirBtn);
         lv_label_set_text(mkdirLabel, LV_SYMBOL_PLUS);
         lv_obj_center(mkdirLabel);
@@ -62,7 +62,7 @@ public:
 
         // Add a Paste button
         m_pasteBtn = lv_button_create(m_header);
-        lv_obj_set_size(m_pasteBtn, lv_dpx(30), lv_dpx(30));
+        lv_obj_set_size(m_pasteBtn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
         lv_obj_t *pasteLabel = lv_label_create(m_pasteBtn);
         lv_label_set_text(pasteLabel, LV_SYMBOL_PASTE);
         lv_obj_center(pasteLabel);
@@ -74,7 +74,6 @@ public:
         m_pathLabel = lv_label_create(m_header);
         lv_obj_set_flex_grow(m_pathLabel, 1);
         lv_label_set_long_mode(m_pathLabel, LV_LABEL_LONG_SCROLL_CIRCULAR);
-        lv_obj_set_style_text_font(m_pathLabel, &lv_font_montserrat_14, 0);
         
         lv_obj_add_event_cb(m_backBtn, [](lv_event_t *e) {
             FilesApp *app = (FilesApp *)lv_event_get_user_data(e);

@@ -239,8 +239,6 @@ public:
     lv_textarea_set_one_line(m_passwordTa, true);
     lv_textarea_set_placeholder_text(m_passwordTa, "Password");
     lv_obj_set_width(m_passwordTa, lv_pct(90));
-    lv_obj_set_style_max_width(m_passwordTa, lv_dpx(400), 0);
-    lv_obj_set_style_min_width(m_passwordTa, lv_dpx(180), 0);
     lv_obj_align(m_passwordTa, LV_ALIGN_TOP_MID, 0, 0);
 
     lv_obj_t *btnCont = lv_obj_create(m_connectContainer);

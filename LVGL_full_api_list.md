@@ -1,6 +1,6 @@
 # LVGL API List
 
-*Last Updated: 2026-01-21 19:32:58*
+*Last Updated: 2026-01-24 20:44:42*
 
 Sorted from highly featured (most functions) to least featured.
 
@@ -996,6 +996,116 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_draw_vg_lite_vector`
 - `lv_draw_wait_for_finish`
 
+## lv_draw_sw (108 APIs)
+- `lv_draw_sw_arc`
+- `lv_draw_sw_blend`
+- `lv_draw_sw_blend_neon_al88_to_rgb565`
+- `lv_draw_sw_blend_neon_al88_to_rgb565_with_mask`
+- `lv_draw_sw_blend_neon_al88_to_rgb565_with_opa`
+- `lv_draw_sw_blend_neon_al88_to_rgb565_with_opa_mask`
+- `lv_draw_sw_blend_neon_al88_to_rgb888`
+- `lv_draw_sw_blend_neon_al88_to_rgb888_with_mask`
+- `lv_draw_sw_blend_neon_al88_to_rgb888_with_opa`
+- `lv_draw_sw_blend_neon_al88_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blend_neon_argb888_premultiplied_to_rgb565`
+- `lv_draw_sw_blend_neon_argb888_premultiplied_to_rgb888`
+- `lv_draw_sw_blend_neon_argb888_to_rgb565`
+- `lv_draw_sw_blend_neon_argb888_to_rgb565_with_mask`
+- `lv_draw_sw_blend_neon_argb888_to_rgb565_with_opa`
+- `lv_draw_sw_blend_neon_argb888_to_rgb565_with_opa_mask`
+- `lv_draw_sw_blend_neon_argb888_to_rgb888`
+- `lv_draw_sw_blend_neon_argb888_to_rgb888_with_mask`
+- `lv_draw_sw_blend_neon_argb888_to_rgb888_with_opa`
+- `lv_draw_sw_blend_neon_argb888_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blend_neon_color_to_rgb565`
+- `lv_draw_sw_blend_neon_color_to_rgb565_with_mask`
+- `lv_draw_sw_blend_neon_color_to_rgb565_with_opa`
+- `lv_draw_sw_blend_neon_color_to_rgb565_with_opa_mask`
+- `lv_draw_sw_blend_neon_color_to_rgb888`
+- `lv_draw_sw_blend_neon_color_to_rgb888_with_mask`
+- `lv_draw_sw_blend_neon_color_to_rgb888_with_opa`
+- `lv_draw_sw_blend_neon_color_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blend_neon_l8_to_rgb565`
+- `lv_draw_sw_blend_neon_l8_to_rgb888`
+- `lv_draw_sw_blend_neon_rgb565_to_rgb565`
+- `lv_draw_sw_blend_neon_rgb565_to_rgb565_with_mask`
+- `lv_draw_sw_blend_neon_rgb565_to_rgb565_with_opa`
+- `lv_draw_sw_blend_neon_rgb565_to_rgb565_with_opa_mask`
+- `lv_draw_sw_blend_neon_rgb565_to_rgb888`
+- `lv_draw_sw_blend_neon_rgb565_to_rgb888_with_mask`
+- `lv_draw_sw_blend_neon_rgb565_to_rgb888_with_opa`
+- `lv_draw_sw_blend_neon_rgb565_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blend_neon_rgb888_to_rgb565`
+- `lv_draw_sw_blend_neon_rgb888_to_rgb565_with_mask`
+- `lv_draw_sw_blend_neon_rgb888_to_rgb565_with_opa`
+- `lv_draw_sw_blend_neon_rgb888_to_rgb565_with_opa_mask`
+- `lv_draw_sw_blend_neon_rgb888_to_rgb888`
+- `lv_draw_sw_blend_neon_rgb888_to_rgb888_with_mask`
+- `lv_draw_sw_blend_neon_rgb888_to_rgb888_with_opa`
+- `lv_draw_sw_blend_neon_rgb888_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blend_riscv_v_argb8888_premultiplied_to_rgb888`
+- `lv_draw_sw_blend_riscv_v_argb8888_to_rgb888`
+- `lv_draw_sw_blend_riscv_v_argb8888_to_rgb888_with_mask`
+- `lv_draw_sw_blend_riscv_v_argb8888_to_rgb888_with_opa`
+- `lv_draw_sw_blend_riscv_v_argb8888_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blend_riscv_v_color_to_rgb888`
+- `lv_draw_sw_blend_riscv_v_color_to_rgb888_with_mask`
+- `lv_draw_sw_blend_riscv_v_color_to_rgb888_with_opa`
+- `lv_draw_sw_blend_riscv_v_color_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blend_riscv_v_rgb565_to_rgb888`
+- `lv_draw_sw_blend_riscv_v_rgb565_to_rgb888_with_mask`
+- `lv_draw_sw_blend_riscv_v_rgb565_to_rgb888_with_opa`
+- `lv_draw_sw_blend_riscv_v_rgb565_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blend_riscv_v_rgb888_to_rgb888`
+- `lv_draw_sw_blend_riscv_v_rgb888_to_rgb888_with_mask`
+- `lv_draw_sw_blend_riscv_v_rgb888_to_rgb888_with_opa`
+- `lv_draw_sw_blend_riscv_v_rgb888_to_rgb888_with_opa_mask`
+- `lv_draw_sw_blur`
+- `lv_draw_sw_border`
+- `lv_draw_sw_box_shadow`
+- `lv_draw_sw_deinit`
+- `lv_draw_sw_fill`
+- `lv_draw_sw_get_blend_handler`
+- `lv_draw_sw_grad_cleanup`
+- `lv_draw_sw_grad_conical_cleanup`
+- `lv_draw_sw_grad_conical_setup`
+- `lv_draw_sw_grad_get`
+- `lv_draw_sw_grad_linear_cleanup`
+- `lv_draw_sw_grad_linear_setup`
+- `lv_draw_sw_grad_radial_cleanup`
+- `lv_draw_sw_grad_radial_setup`
+- `lv_draw_sw_i1_convert_to_vtiled`
+- `lv_draw_sw_i1_invert`
+- `lv_draw_sw_i1_to_argb8888`
+- `lv_draw_sw_image`
+- `lv_draw_sw_image_helium`
+- `lv_draw_sw_image_recolor_rgb565`
+- `lv_draw_sw_image_recolor_rgb888`
+- `lv_draw_sw_init`
+- `lv_draw_sw_label`
+- `lv_draw_sw_layer`
+- `lv_draw_sw_letter`
+- `lv_draw_sw_line`
+- `lv_draw_sw_mask_angle_init`
+- `lv_draw_sw_mask_deinit`
+- `lv_draw_sw_mask_fade_init`
+- `lv_draw_sw_mask_free_param`
+- `lv_draw_sw_mask_init`
+- `lv_draw_sw_mask_line_angle_init`
+- `lv_draw_sw_mask_line_points_init`
+- `lv_draw_sw_mask_map_init`
+- `lv_draw_sw_mask_radius_init`
+- `lv_draw_sw_mask_rect`
+- `lv_draw_sw_mask_res_t`
+- `lv_draw_sw_register_blend_handler`
+- `lv_draw_sw_rgb565_swap`
+- `lv_draw_sw_rgb565_swap_helium`
+- `lv_draw_sw_rotate`
+- `lv_draw_sw_transform`
+- `lv_draw_sw_triangle`
+- `lv_draw_sw_unregister_blend_handler`
+- `lv_draw_sw_vector`
+
 ## lv_vg (97 APIs)
 - `lv_vg_lite_bitmap_font_cache_deinit`
 - `lv_vg_lite_bitmap_font_cache_get`
@@ -1094,99 +1204,6 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_vg_lite_vlc_op_arg_len`
 - `lv_vg_lite_vlc_op_string`
 - `lv_vg_lite_width_to_stride`
-
-## lv_draw_sw (91 APIs)
-- `lv_draw_sw_arc`
-- `lv_draw_sw_blend`
-- `lv_draw_sw_blend_neon_al88_to_rgb565`
-- `lv_draw_sw_blend_neon_al88_to_rgb565_with_mask`
-- `lv_draw_sw_blend_neon_al88_to_rgb565_with_opa`
-- `lv_draw_sw_blend_neon_al88_to_rgb565_with_opa_mask`
-- `lv_draw_sw_blend_neon_al88_to_rgb888`
-- `lv_draw_sw_blend_neon_al88_to_rgb888_with_mask`
-- `lv_draw_sw_blend_neon_al88_to_rgb888_with_opa`
-- `lv_draw_sw_blend_neon_al88_to_rgb888_with_opa_mask`
-- `lv_draw_sw_blend_neon_argb888_premultiplied_to_rgb565`
-- `lv_draw_sw_blend_neon_argb888_premultiplied_to_rgb888`
-- `lv_draw_sw_blend_neon_argb888_to_rgb565`
-- `lv_draw_sw_blend_neon_argb888_to_rgb565_with_mask`
-- `lv_draw_sw_blend_neon_argb888_to_rgb565_with_opa`
-- `lv_draw_sw_blend_neon_argb888_to_rgb565_with_opa_mask`
-- `lv_draw_sw_blend_neon_argb888_to_rgb888`
-- `lv_draw_sw_blend_neon_argb888_to_rgb888_with_mask`
-- `lv_draw_sw_blend_neon_argb888_to_rgb888_with_opa`
-- `lv_draw_sw_blend_neon_argb888_to_rgb888_with_opa_mask`
-- `lv_draw_sw_blend_neon_color_to_rgb565`
-- `lv_draw_sw_blend_neon_color_to_rgb565_with_mask`
-- `lv_draw_sw_blend_neon_color_to_rgb565_with_opa`
-- `lv_draw_sw_blend_neon_color_to_rgb565_with_opa_mask`
-- `lv_draw_sw_blend_neon_color_to_rgb888`
-- `lv_draw_sw_blend_neon_color_to_rgb888_with_mask`
-- `lv_draw_sw_blend_neon_color_to_rgb888_with_opa`
-- `lv_draw_sw_blend_neon_color_to_rgb888_with_opa_mask`
-- `lv_draw_sw_blend_neon_l8_to_rgb565`
-- `lv_draw_sw_blend_neon_l8_to_rgb888`
-- `lv_draw_sw_blend_neon_rgb565_to_rgb565`
-- `lv_draw_sw_blend_neon_rgb565_to_rgb565_with_mask`
-- `lv_draw_sw_blend_neon_rgb565_to_rgb565_with_opa`
-- `lv_draw_sw_blend_neon_rgb565_to_rgb565_with_opa_mask`
-- `lv_draw_sw_blend_neon_rgb565_to_rgb888`
-- `lv_draw_sw_blend_neon_rgb565_to_rgb888_with_mask`
-- `lv_draw_sw_blend_neon_rgb565_to_rgb888_with_opa`
-- `lv_draw_sw_blend_neon_rgb565_to_rgb888_with_opa_mask`
-- `lv_draw_sw_blend_neon_rgb888_to_rgb565`
-- `lv_draw_sw_blend_neon_rgb888_to_rgb565_with_mask`
-- `lv_draw_sw_blend_neon_rgb888_to_rgb565_with_opa`
-- `lv_draw_sw_blend_neon_rgb888_to_rgb565_with_opa_mask`
-- `lv_draw_sw_blend_neon_rgb888_to_rgb888`
-- `lv_draw_sw_blend_neon_rgb888_to_rgb888_with_mask`
-- `lv_draw_sw_blend_neon_rgb888_to_rgb888_with_opa`
-- `lv_draw_sw_blend_neon_rgb888_to_rgb888_with_opa_mask`
-- `lv_draw_sw_blur`
-- `lv_draw_sw_border`
-- `lv_draw_sw_box_shadow`
-- `lv_draw_sw_deinit`
-- `lv_draw_sw_fill`
-- `lv_draw_sw_get_blend_handler`
-- `lv_draw_sw_grad_cleanup`
-- `lv_draw_sw_grad_conical_cleanup`
-- `lv_draw_sw_grad_conical_setup`
-- `lv_draw_sw_grad_get`
-- `lv_draw_sw_grad_linear_cleanup`
-- `lv_draw_sw_grad_linear_setup`
-- `lv_draw_sw_grad_radial_cleanup`
-- `lv_draw_sw_grad_radial_setup`
-- `lv_draw_sw_i1_convert_to_vtiled`
-- `lv_draw_sw_i1_invert`
-- `lv_draw_sw_i1_to_argb8888`
-- `lv_draw_sw_image`
-- `lv_draw_sw_image_helium`
-- `lv_draw_sw_image_recolor_rgb565`
-- `lv_draw_sw_image_recolor_rgb888`
-- `lv_draw_sw_init`
-- `lv_draw_sw_label`
-- `lv_draw_sw_layer`
-- `lv_draw_sw_letter`
-- `lv_draw_sw_line`
-- `lv_draw_sw_mask_angle_init`
-- `lv_draw_sw_mask_deinit`
-- `lv_draw_sw_mask_fade_init`
-- `lv_draw_sw_mask_free_param`
-- `lv_draw_sw_mask_init`
-- `lv_draw_sw_mask_line_angle_init`
-- `lv_draw_sw_mask_line_points_init`
-- `lv_draw_sw_mask_map_init`
-- `lv_draw_sw_mask_radius_init`
-- `lv_draw_sw_mask_rect`
-- `lv_draw_sw_mask_res_t`
-- `lv_draw_sw_register_blend_handler`
-- `lv_draw_sw_rgb565_swap`
-- `lv_draw_sw_rgb565_swap_helium`
-- `lv_draw_sw_rotate`
-- `lv_draw_sw_transform`
-- `lv_draw_sw_triangle`
-- `lv_draw_sw_unregister_blend_handler`
-- `lv_draw_sw_vector`
 
 ## lv_gltf (90 APIs)
 - `lv_gltf_create`
@@ -1728,7 +1745,7 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_fs_win32_init`
 - `lv_fs_write`
 
-## lv_textarea (37 APIs)
+## lv_textarea (38 APIs)
 - `lv_textarea_add_char`
 - `lv_textarea_add_text`
 - `lv_textarea_clear_selection`
@@ -1753,6 +1770,7 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_textarea_get_text`
 - `lv_textarea_get_text_selection`
 - `lv_textarea_set_accepted_chars`
+- `lv_textarea_set_accepted_chars_static`
 - `lv_textarea_set_align`
 - `lv_textarea_set_cursor_click_pos`
 - `lv_textarea_set_cursor_pos`
@@ -2138,6 +2156,33 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_spangroup_set_span_text_fmt`
 - `lv_spangroup_set_span_text_static`
 
+## lv_dropdown (25 APIs)
+- `lv_dropdown_add_option`
+- `lv_dropdown_bind_value`
+- `lv_dropdown_clear_options`
+- `lv_dropdown_close`
+- `lv_dropdown_create`
+- `lv_dropdown_get_dir`
+- `lv_dropdown_get_list`
+- `lv_dropdown_get_option_count`
+- `lv_dropdown_get_option_index`
+- `lv_dropdown_get_options`
+- `lv_dropdown_get_selected`
+- `lv_dropdown_get_selected_highlight`
+- `lv_dropdown_get_selected_str`
+- `lv_dropdown_get_symbol`
+- `lv_dropdown_get_text`
+- `lv_dropdown_is_open`
+- `lv_dropdown_open`
+- `lv_dropdown_set_dir`
+- `lv_dropdown_set_options`
+- `lv_dropdown_set_options_static`
+- `lv_dropdown_set_selected`
+- `lv_dropdown_set_selected_highlight`
+- `lv_dropdown_set_symbol`
+- `lv_dropdown_set_text`
+- `lv_dropdown_set_text_static`
+
 ## lv_spinbox (25 APIs)
 - `lv_spinbox_bind_value`
 - `lv_spinbox_create`
@@ -2191,32 +2236,6 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_theme_simple_get`
 - `lv_theme_simple_init`
 - `lv_theme_simple_is_inited`
-
-## lv_dropdown (24 APIs)
-- `lv_dropdown_add_option`
-- `lv_dropdown_bind_value`
-- `lv_dropdown_clear_options`
-- `lv_dropdown_close`
-- `lv_dropdown_create`
-- `lv_dropdown_get_dir`
-- `lv_dropdown_get_list`
-- `lv_dropdown_get_option_count`
-- `lv_dropdown_get_option_index`
-- `lv_dropdown_get_options`
-- `lv_dropdown_get_selected`
-- `lv_dropdown_get_selected_highlight`
-- `lv_dropdown_get_selected_str`
-- `lv_dropdown_get_symbol`
-- `lv_dropdown_get_text`
-- `lv_dropdown_is_open`
-- `lv_dropdown_open`
-- `lv_dropdown_set_dir`
-- `lv_dropdown_set_options`
-- `lv_dropdown_set_options_static`
-- `lv_dropdown_set_selected`
-- `lv_dropdown_set_selected_highlight`
-- `lv_dropdown_set_symbol`
-- `lv_dropdown_set_text`
 
 ## lv_nanovg (23 APIs)
 - `lv_nanovg_clean_up`
@@ -2707,6 +2726,23 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_buttonmatrix_set_one_checked`
 - `lv_buttonmatrix_set_selected_button`
 
+## lv_canvas (15 APIs)
+- `lv_canvas_buf_size`
+- `lv_canvas_copy_buf`
+- `lv_canvas_create`
+- `lv_canvas_fill_bg`
+- `lv_canvas_finish_layer`
+- `lv_canvas_get_buf`
+- `lv_canvas_get_draw_buf`
+- `lv_canvas_get_image`
+- `lv_canvas_get_px`
+- `lv_canvas_init_layer`
+- `lv_canvas_set_buffer`
+- `lv_canvas_set_draw_buf`
+- `lv_canvas_set_palette`
+- `lv_canvas_set_px`
+- `lv_canvas_set_px_skip_invalidate`
+
 ## lv_uefi (15 APIs)
 - `lv_uefi_absolute_pointer_indev_add_all`
 - `lv_uefi_absolute_pointer_indev_add_handle`
@@ -2723,22 +2759,6 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_uefi_simple_text_input_indev_add_all`
 - `lv_uefi_simple_text_input_indev_add_handle`
 - `lv_uefi_simple_text_input_indev_create`
-
-## lv_canvas (14 APIs)
-- `lv_canvas_buf_size`
-- `lv_canvas_copy_buf`
-- `lv_canvas_create`
-- `lv_canvas_fill_bg`
-- `lv_canvas_finish_layer`
-- `lv_canvas_get_buf`
-- `lv_canvas_get_draw_buf`
-- `lv_canvas_get_image`
-- `lv_canvas_get_px`
-- `lv_canvas_init_layer`
-- `lv_canvas_set_buffer`
-- `lv_canvas_set_draw_buf`
-- `lv_canvas_set_palette`
-- `lv_canvas_set_px`
 
 ## lv_file_explorer (14 APIs)
 - `lv_file_explorer_create`
@@ -3389,6 +3409,11 @@ Sorted from highly featured (most functions) to least featured.
 - `lv_draw_arc_dsc_init`
 - `lv_draw_arc_get_area`
 
+## lv_draw_line (3 APIs)
+- `lv_draw_line`
+- `lv_draw_line_dsc_init`
+- `lv_draw_line_iterate`
+
 ## lv_gridnav (3 APIs)
 - `lv_gridnav_add`
 - `lv_gridnav_remove`
@@ -3466,10 +3491,6 @@ Sorted from highly featured (most functions) to least featured.
 ## lv_draw_image (2 APIs)
 - `lv_draw_image`
 - `lv_draw_image_dsc_init`
-
-## lv_draw_line (2 APIs)
-- `lv_draw_line`
-- `lv_draw_line_dsc_init`
 
 ## lv_draw_triangle (2 APIs)
 - `lv_draw_triangle`

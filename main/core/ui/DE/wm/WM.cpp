@@ -71,6 +71,7 @@ void WM::update_layout(lv_obj_t *root_container) {
   }
 
   lv_obj_t *current_parent = root_container;
+  lv_obj_remove_flag(current_parent, LV_OBJ_FLAG_SCROLLABLE);
   lv_obj_set_flex_flow(current_parent, LV_FLEX_FLOW_ROW);
   lv_obj_set_flex_align(current_parent, LV_FLEX_ALIGN_START,
                         LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START);
@@ -93,6 +94,7 @@ void WM::update_layout(lv_obj_t *root_container) {
 
       lv_obj_t *next_container = lv_obj_create(current_parent);
       lv_obj_remove_style_all(next_container);
+      lv_obj_remove_flag(next_container, LV_OBJ_FLAG_SCROLLABLE);
       lv_obj_set_flex_grow(next_container, 1);
       lv_obj_set_size(next_container, lv_pct(100), lv_pct(100));
       lv_obj_set_style_pad_gap(next_container, lv_dpx(4), 0);
@@ -191,8 +193,6 @@ void WM::openApp(const std::string &packageName) {
 
   lv_obj_t *win = lv_win_create(m_windowContainer);
   lv_obj_set_size(win, lv_pct(95), lv_pct(95));
-  lv_obj_set_style_min_width(win, lv_dpx(200), 0);
-  lv_obj_set_style_min_height(win, lv_dpx(150), 0);
   lv_obj_set_style_radius(win, lv_dpx(8), 0);
   lv_obj_set_style_border_post(win, true, 0);
   lv_obj_center(win);
@@ -213,28 +213,20 @@ void WM::openApp(const std::string &packageName) {
 
   lv_obj_t *header = lv_win_get_header(win);
   lv_obj_set_height(header, lv_pct(10));
-  lv_obj_set_style_max_height(header, lv_dpx(40), 0);
-  lv_obj_set_style_min_height(header, lv_dpx(24), 0);
   lv_obj_add_flag(header, LV_OBJ_FLAG_EVENT_BUBBLE);
   lv_obj_remove_flag(header, LV_OBJ_FLAG_SCROLLABLE);
   lv_win_add_title(win, app->getAppName().c_str());
 
   lv_obj_t *min_btn = lv_win_add_button(win, LV_SYMBOL_DOWN, lv_pct(10));
-  lv_obj_set_style_max_width(min_btn, lv_dpx(48), 0);
-  lv_obj_set_style_min_width(min_btn, lv_dpx(32), 0);
   lv_obj_add_event_cb(min_btn, on_header_minimize, LV_EVENT_CLICKED, this);
 
   lv_obj_t *max_btn = lv_win_add_button(win, LV_SYMBOL_PLUS, lv_pct(10));
-  lv_obj_set_style_max_width(max_btn, lv_dpx(48), 0);
-  lv_obj_set_style_min_width(max_btn, lv_dpx(32), 0);
   if (lv_obj_get_child_count(max_btn) > 0) {
     m_windowMaxBtnLabelMap[win] = lv_obj_get_child(max_btn, 0);
   }
   lv_obj_add_event_cb(max_btn, on_win_maximize, LV_EVENT_CLICKED, this);
 
   lv_obj_t *close_btn = lv_win_add_button(win, LV_SYMBOL_CLOSE, lv_pct(10));
-  lv_obj_set_style_max_width(close_btn, lv_dpx(48), 0);
-  lv_obj_set_style_min_width(close_btn, lv_dpx(32), 0);
   lv_obj_add_event_cb(close_btn, on_win_close, LV_EVENT_CLICKED, this);
 
   lv_obj_t *content = lv_win_get_content(win);
