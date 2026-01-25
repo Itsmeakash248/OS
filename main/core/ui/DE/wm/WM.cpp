@@ -213,6 +213,7 @@ void WM::openApp(const std::string &packageName) {
 
   lv_obj_t *header = lv_win_get_header(win);
   lv_obj_set_height(header, lv_pct(10));
+  lv_obj_set_style_pad_all(header, 0, 0);
   lv_obj_add_flag(header, LV_OBJ_FLAG_EVENT_BUBBLE);
   lv_obj_remove_flag(header, LV_OBJ_FLAG_SCROLLABLE);
   lv_win_add_title(win, app->getAppName().c_str());

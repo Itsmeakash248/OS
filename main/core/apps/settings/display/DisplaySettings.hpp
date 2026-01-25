@@ -83,6 +83,11 @@ public:
       lv_obj_set_flex_grow(lv_obj_get_child(wpBtn, 1), 1);
       lv_obj_t *wpSw = lv_switch_create(wpBtn);
       lv_obj_bind_checked(wpSw, &SystemManager::getInstance().getWallpaperEnabledSubject());
+
+      lv_obj_t *glassBtn = add_list_btn(m_list, LV_SYMBOL_IMAGE, "Glass Effect");
+      lv_obj_set_flex_grow(lv_obj_get_child(glassBtn, 1), 1);
+      lv_obj_t *glassSw = lv_switch_create(glassBtn);
+      lv_obj_bind_checked(glassSw, &SystemManager::getInstance().getGlassEnabledSubject());
     } else {
       lv_obj_remove_flag(m_container, LV_OBJ_FLAG_HIDDEN);
     }

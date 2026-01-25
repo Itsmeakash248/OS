@@ -223,7 +223,6 @@ private:
                                     client.ip.empty() ? "Allocating..." : client.ip.c_str(), 
                                     rssi_str, (int)(d/60), (int)(d%60));
             }
-            lv_obj_set_style_text_color(info_label, lv_palette_main(LV_PALETTE_GREY), 0);
           }
         }
       }, 2000, this);
@@ -293,6 +292,7 @@ private:
     m_channelDropdown = lv_dropdown_create(channelCont);
     lv_dropdown_set_options(m_channelDropdown, "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13");
     lv_obj_set_width(m_channelDropdown, lv_dpx(80));
+    lv_dropdown_set_dir(m_channelDropdown, LV_DIR_LEFT);
 
     // Max Connections
     lv_obj_t *maxConnCont = lv_obj_create(content);
@@ -359,7 +359,8 @@ private:
     m_securityDropdown = lv_dropdown_create(secCont);
     lv_dropdown_set_options(m_securityDropdown, "Open\nWPA2 PSK\nWPA3 PSK\nWPA2/WPA3");
     lv_dropdown_set_selected(m_securityDropdown, 1);
-    lv_obj_set_width(m_securityDropdown, lv_dpx(120));
+    lv_obj_set_width(m_securityDropdown, lv_dpx(125));
+    lv_dropdown_set_dir(m_securityDropdown, LV_DIR_LEFT);
 
     // TX Power
     lv_obj_t *txCont = lv_obj_create(content);

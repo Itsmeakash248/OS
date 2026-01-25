@@ -56,6 +56,7 @@ esp_err_t SystemManager::initGuiState() {
   lv_subject_init_int(&m_uptime_subject, 0);
   lv_subject_init_int(&m_show_fps_subject, 0);
   lv_subject_init_int(&m_wallpaper_enabled_subject, 0);
+  lv_subject_init_int(&m_glass_enabled_subject, 0);
 
   auto add_obs = [](lv_subject_t *s, void (*cb)(lv_observer_t *, lv_subject_t *)) {
     lv_subject_add_observer(s, cb, nullptr);

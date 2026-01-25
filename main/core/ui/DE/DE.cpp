@@ -18,8 +18,22 @@ DE &DE::getInstance() {
 
 void DE::apply_glass(lv_obj_t *obj, int32_t blur) {
   lv_obj_set_style_bg_opa(obj, LV_OPA_60, 0);
-  lv_obj_set_style_blur_backdrop(obj, true, 0);
-  lv_obj_set_style_blur_radius(obj, blur, 0);
+
+  lv_subject_add_observer_obj(
+      &System::SystemManager::getInstance().getGlassEnabledSubject(),
+      [](lv_observer_t *observer, lv_subject_t *subject) {
+        lv_obj_t *target = lv_observer_get_target_obj(observer);
+        int32_t b = (intptr_t)lv_observer_get_user_data(observer);
+        bool enabled = lv_subject_get_int(subject);
+        if (enabled) {
+          lv_obj_set_style_blur_backdrop(target, true, 0);
+          lv_obj_set_style_blur_radius(target, b, 0);
+        } else {
+          lv_obj_set_style_blur_backdrop(target, false, 0);
+          lv_obj_set_style_blur_radius(target, 0, 0);
+        }
+      },
+      obj, (void *)(intptr_t)blur);
 }
 
 lv_obj_t *DE::create_dock_btn(lv_obj_t *parent, const char *icon, int32_t w, int32_t h) {
@@ -33,7 +47,8 @@ lv_obj_t *DE::create_dock_btn(lv_obj_t *parent, const char *icon, int32_t w, int
 }
 
 DE::DE()
-    : screen(nullptr), wallpaper(nullptr), wallpaper_img(nullptr), window_container(nullptr),
+    : screen(nullptr), wallpaper(nullptr), wallpaper_img(nullptr), wallpaper_icon(nullptr),
+      window_container(nullptr),
       status_bar(nullptr), dock(nullptr), time_label(nullptr),
       theme_label(nullptr), launcher(nullptr), quick_access_panel(nullptr),
       greetings(nullptr), app_container(nullptr) {}
@@ -60,6 +75,12 @@ void DE::init() {
     lv_obj_add_flag(wallpaper, LV_OBJ_FLAG_FLOATING);
     lv_obj_move_background(wallpaper);
 
+    wallpaper_icon = lv_label_create(wallpaper);
+    lv_label_set_text(wallpaper_icon, LV_SYMBOL_IMAGE);
+    lv_obj_set_style_text_font(wallpaper_icon, &lv_font_montserrat_48, 0);
+    lv_obj_set_style_text_opa(wallpaper_icon, LV_OPA_30, 0);
+    lv_obj_center(wallpaper_icon);
+
     lv_subject_add_observer_obj(
         &System::SystemManager::getInstance().getThemeSubject(),
         [](lv_observer_t *observer, lv_subject_t *subject) {
@@ -79,6 +100,7 @@ void DE::init() {
           bool enabled = lv_subject_get_int(subject);
           
           if (enabled) {
+            if (instance->wallpaper_icon) lv_obj_add_flag(instance->wallpaper_icon, LV_OBJ_FLAG_HIDDEN);
             if (instance->wallpaper_img == nullptr && instance->wallpaper != nullptr) {
               instance->wallpaper_img = lv_image_create(instance->wallpaper);
               lv_image_set_src(instance->wallpaper_img, "A:/data/wallpaper.png");
@@ -89,6 +111,7 @@ void DE::init() {
               lv_obj_move_background(instance->wallpaper_img);
             }
           } else {
+            if (instance->wallpaper_icon) lv_obj_clear_flag(instance->wallpaper_icon, LV_OBJ_FLAG_HIDDEN);
             if (instance->wallpaper_img != nullptr) {
               lv_obj_delete(instance->wallpaper_img);
               instance->wallpaper_img = nullptr;
@@ -116,7 +139,6 @@ void DE::init() {
   if (wallpaper) {
     greetings = lv_label_create(wallpaper);
     lv_label_set_text(greetings, "Hey !");
-    lv_obj_set_style_text_color(greetings, lv_color_white(), 0);
     lv_obj_align_to(greetings, dock, LV_ALIGN_OUT_TOP_RIGHT, -lv_dpx(2), -lv_dpx(2));
   }
 
@@ -364,7 +386,6 @@ void DE::create_status_bar() {
 
     lv_obj_t *safe_label = lv_label_create(left_group);
     lv_label_set_text(safe_label, " SAFE MODE");
-    lv_obj_set_style_text_color(safe_label, lv_palette_main(LV_PALETTE_RED), 0);
   }
 
   lv_obj_t *wifi_icon = lv_label_create(left_group);

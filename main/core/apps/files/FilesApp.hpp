@@ -207,7 +207,6 @@ private:
 
         if (res != LV_FS_RES_OK) {
             lv_obj_t * l = lv_list_add_text(m_list, "Error opening directory");
-            lv_obj_set_style_text_color(l, lv_palette_main(LV_PALETTE_RED), 0);
             return;
         }
 
@@ -246,7 +245,6 @@ private:
         lv_dropdown_set_symbol(dropdown, NULL);
         lv_dropdown_set_selected_highlight(dropdown, false);
         lv_dropdown_set_dir(dropdown, LV_DIR_LEFT);
-        lv_obj_set_style_max_height(lv_dropdown_get_list(dropdown), lv_dpx(150), 0);
 
         // Styling
         lv_obj_set_style_bg_opa(dropdown, LV_OPA_TRANSP, 0);

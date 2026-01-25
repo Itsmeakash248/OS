@@ -26,6 +26,7 @@ private:
   lv_obj_t *screen;
   lv_obj_t *wallpaper;
   lv_obj_t *wallpaper_img;
+  lv_obj_t *wallpaper_icon;
   lv_obj_t *window_container;
   lv_obj_t *status_bar;
   lv_obj_t *dock;

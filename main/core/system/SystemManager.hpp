@@ -23,6 +23,7 @@ public:
   lv_subject_t &getUptimeSubject() { return m_uptime_subject; }
   lv_subject_t &getShowFpsSubject() { return m_show_fps_subject; }
   lv_subject_t &getWallpaperEnabledSubject() { return m_wallpaper_enabled_subject; }
+  lv_subject_t &getGlassEnabledSubject() { return m_glass_enabled_subject; }
 
 private:
   SystemManager() = default;
@@ -46,6 +47,7 @@ private:
   lv_subject_t m_uptime_subject;
   lv_subject_t m_show_fps_subject;
   lv_subject_t m_wallpaper_enabled_subject;
+  lv_subject_t m_glass_enabled_subject;
 };
 
 } // namespace System
