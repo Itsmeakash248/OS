@@ -22,12 +22,24 @@ void GuiTask::unlock() { if (xGuiSemaphore) xSemaphoreGiveRecursive(xGuiSemaphor
 void GuiTask::display_init() {
   lv_init();
   lv_fs_stdio_init();
-  const uint32_t sz = 240 * 320 / 10 * 2;
-  void *buf = heap_caps_malloc(sz, MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL);
-  if (!buf) buf = heap_caps_malloc(sz, MALLOC_CAP_DMA | MALLOC_CAP_SPIRAM);
+  const uint32_t sz = CONFIG_OS_DISPLAY_WIDTH * CONFIG_OS_DISPLAY_HEIGHT / 10 * 2;
+  void *buf = heap_caps_malloc(sz, MALLOC_CAP_DMA);
+  if (!buf) ESP_LOGE("GuiTask", "Failed to allocate display buffer!");
   
-  lv_display_t *disp = lv_lovyan_gfx_create(240, 320, buf, sz, true);
-  lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_90);
+  bool touch_en = false;
+#if CONFIG_OS_HARDWARE_AUTODETECT
+  touch_en = true; 
+#elif CONFIG_OS_TOUCH_ENABLED
+  touch_en = true;
+#endif
+
+  lv_display_t *disp = lv_lovyan_gfx_create(CONFIG_OS_DISPLAY_WIDTH, CONFIG_OS_DISPLAY_HEIGHT, buf, sz, touch_en);
+  if (!disp) {
+      ESP_LOGE("GuiTask", "Display initialization failed! Halting.");
+      vTaskDelete(NULL);
+      return;
+  }
+  lv_display_set_rotation(disp, (lv_display_rotation_t)(CONFIG_OS_DISPLAY_ROTATION / 90));
   
   lv_group_t * g = lv_group_create();
   lv_group_set_default(g);

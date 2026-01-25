@@ -23,6 +23,7 @@ public:
 
   bool start(void *data = nullptr);
   void stop();
+  void requestStop() { m_stopRequested = true; }
   void suspend() { TaskHandle_t h = m_handle.load(); if (h) vTaskSuspend(h); }
   void resume() { TaskHandle_t h = m_handle.load(); if (h) vTaskResume(h); }
   void join();
