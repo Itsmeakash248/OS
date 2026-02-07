@@ -1,5 +1,4 @@
 #pragma once
-#include "esp_timer.h"
 #include "esp_wifi.h"
 #include "lvgl.h"
 #include <cstring>
@@ -36,13 +35,10 @@ private:
 	lv_obj_t* m_statusLabel = nullptr;
 	lv_obj_t* m_statusPrefixLabel = nullptr;
 	lv_obj_t* m_passwordTa = nullptr;
-	lv_obj_t* m_saveSwitch = nullptr;
+	lv_obj_t* m_rememberSwitch = nullptr;
 	std::string m_connectSsid {};
+	lv_timer_t* m_timer = nullptr;
 	bool m_isScanning = false;
-	bool m_pendingAutoScan = false;
-	lv_observer_t* m_statusObserver = nullptr;
-	lv_observer_t* m_scanIntervalObserver = nullptr;
-	esp_timer_handle_t m_scanTimer = nullptr;
 	std::function<void()> m_onBack {};
 	std::vector<wifi_ap_record_t> m_scanResults {};
 };

@@ -149,11 +149,7 @@ esp_err_t WiFiManager::scan(ScanCallback callback) {
 	);
 
 	Log::info(TAG, "Scanning for WiFi networks...");
-	// Atomically set scanning flag to prevent concurrent scans
-	bool expected = false;
-	if (!m_is_scanning.compare_exchange_strong(expected, true)) {
-		return ESP_ERR_INVALID_STATE; // Already scanning
-	}
+	m_is_scanning = true;
 	m_scan_callback = callback;
 	wifi_scan_config_t scan_config = {};
 	scan_config.show_hidden = false;
@@ -171,14 +167,14 @@ esp_err_t WiFiManager::scan(ScanCallback callback) {
 
 	esp_err_t err = ConnectivityManager::getInstance().setWifiMode(target_mode);
 	if (err != ESP_OK) {
-		m_is_scanning.store(false);
+		m_is_scanning = false;
 		setStatus(WiFiStatus::DISCONNECTED);
 		return err;
 	}
 
 	err = esp_wifi_scan_start(&scan_config, false);
 	if (err != ESP_OK) {
-		m_is_scanning.store(false);
+		m_is_scanning = false;
 		m_scan_callback = nullptr;
 		setStatus(m_is_enabled ? WiFiStatus::DISCONNECTED : WiFiStatus::DISABLED);
 	}
@@ -294,7 +290,7 @@ void WiFiManager::handleScanDone() {
 		m_scan_callback(ap_records);
 	}
 
-	m_is_scanning.store(false);
+	m_is_scanning = false;
 	m_scan_callback = nullptr;
 	setStatus(isConnected() ? WiFiStatus::CONNECTED : (m_is_enabled ? WiFiStatus::DISCONNECTED : WiFiStatus::DISABLED));
 }
