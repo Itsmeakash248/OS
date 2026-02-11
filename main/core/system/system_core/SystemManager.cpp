@@ -11,7 +11,7 @@
 #include "esp_err.h"
 #include "esp_vfs_fat.h"
 #include "nvs.h"
-#include "nvs_flash.h"
+	// Start hotspot usage timer (not started by ConnectivityManager::init, must be called explicitly)
 #include "sdkconfig.h"
 #include "wear_levelling.h"
 #if defined(CONFIG_FLXOS_SD_CARD_ENABLED)
