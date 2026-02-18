@@ -24,7 +24,6 @@
 #include <memory>
 #endif
 
-#include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include <string_view>
 
