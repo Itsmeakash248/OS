@@ -9,6 +9,7 @@
 #include <flx/ui/desktop/Desktop.hpp>
 #include <flx/ui/desktop/window_manager/WindowManager.hpp>
 #include <flx/ui/managers/FocusManager.hpp>
+#include <flx/ui/theming/StyleStore.hpp>
 #include <flx/ui/theming/StyleUtils.hpp>
 #include <flx/ui/theming/UiThemeManager.hpp>
 #include <flx/ui/theming/layout_constants/LayoutConstants.hpp>
@@ -44,21 +45,19 @@ void Desktop::init() {
 	Log::info(TAG, "Initializing Desktop Environment...");
 	m_screen = lv_obj_create(NULL);
 	lv_obj_remove_style_all(m_screen);
+	lv_obj_add_style(m_screen, flx::ui::theming::StyleStore::getInstance().screen(), 0);
 	lv_obj_set_flex_flow(m_screen, LV_FLEX_FLOW_COLUMN);
 	lv_obj_set_flex_align(m_screen, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
 	lv_screen_load(m_screen);
 
-	ThemeConfig const cfg = Themes::GetConfig(ThemeEngine::get_current_theme());
 	auto& uiTheme = flx::ui::theming::UiThemeManager::getInstance();
 
 	if (!flx::system::SystemManager::getInstance().isSafeMode()) {
 		m_wallpaper = lv_obj_create(m_screen);
 		lv_obj_remove_style_all(m_wallpaper);
+		lv_obj_add_style(m_wallpaper, flx::ui::theming::StyleStore::getInstance().wallpaper(), 0);
 		lv_obj_set_size(m_wallpaper, lv_pct(100), lv_pct(100));
-
-		lv_obj_set_style_bg_color(m_wallpaper, cfg.primary, 0);
-		lv_obj_set_style_bg_opa(m_wallpaper, UiConstants::OPA_COVER, 0);
 		lv_obj_add_flag(m_wallpaper, LV_OBJ_FLAG_FLOATING);
 		lv_obj_move_background(m_wallpaper);
 
@@ -67,15 +66,15 @@ void Desktop::init() {
 		lv_obj_set_style_text_opa(m_wallpaper_icon, UiConstants::OPA_30, 0);
 		lv_obj_center(m_wallpaper_icon);
 
-		// Theme Change Observer
+		// Theme Change Observer: rebuild StyleStore and update wallpaper color from tokens
 		lv_subject_add_observer_obj(
 			uiTheme.getThemeSubject(),
 			[](lv_observer_t* observer, lv_subject_t* subject) {
 				lv_obj_t* wp = lv_observer_get_target_obj(observer);
 				if (wp) {
-					ThemeType theme = (ThemeType)lv_subject_get_int(subject);
-					ThemeConfig cfg = Themes::GetConfig(theme);
-					lv_obj_set_style_bg_color(wp, cfg.primary, 0);
+					// StyleStore was already rebuilt by ThemeEngine; read the new primary token
+					const auto& colors = flx::ui::theming::StyleStore::getInstance().getTokens().colors;
+					lv_obj_set_style_bg_color(wp, colors.primary, 0);
 				}
 			},
 			m_wallpaper, nullptr
@@ -116,6 +115,7 @@ void Desktop::init() {
 
 	m_window_container = lv_obj_create(m_screen);
 	lv_obj_remove_style_all(m_window_container);
+	lv_obj_add_style(m_window_container, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_remove_flag(m_window_container, LV_OBJ_FLAG_SCROLLABLE);
 	lv_obj_set_width(m_window_container, lv_pct(100));
 	lv_obj_set_flex_grow(m_window_container, 1);
@@ -189,8 +189,6 @@ void Desktop::init() {
 	}
 }
 
-
-
 void Desktop::createWallpaperImage(const char* path) {
 	// Drop cache for old wallpaper before loading new one
 	if (!m_wallpaper_path.empty() && lv_image_cache_is_enabled()) {
@@ -201,8 +199,7 @@ void Desktop::createWallpaperImage(const char* path) {
 	m_wallpaper_img = lv_image_create(m_wallpaper);
 	lv_image_set_src(m_wallpaper_img, path);
 	lv_obj_set_size(m_wallpaper_img, lv_pct(100), lv_pct(100));
-	lv_obj_set_style_pad_all(m_wallpaper_img, 0, 0);
-	lv_obj_set_style_border_width(m_wallpaper_img, 0, 0);
+	lv_obj_add_style(m_wallpaper_img, flx::ui::theming::StyleStore::getInstance().wallpaperImage(), 0);
 	lv_image_set_inner_align(m_wallpaper_img, LV_IMAGE_ALIGN_COVER);
 	lv_obj_move_background(m_wallpaper_img);
 }

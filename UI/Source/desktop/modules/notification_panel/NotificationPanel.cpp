@@ -52,10 +52,10 @@ void NotificationPanel::create() {
 	lv_obj_t* header = lv_obj_create(m_panel);
 	lv_obj_remove_style_all(header);
 	lv_obj_add_style(header, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
+	lv_obj_add_style(header, flx::ui::theming::StyleStore::getInstance().panelHeader(), 0);
 	lv_obj_set_size(header, lv_pct(100), LV_SIZE_CONTENT);
 	lv_obj_set_flex_flow(header, LV_FLEX_FLOW_ROW);
 	lv_obj_set_flex_align(header, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-	lv_obj_set_style_pad_all(header, lv_dpx(UiConstants::PAD_LARGE), 0);
 
 	lv_obj_t* title = lv_label_create(header);
 	lv_label_set_text(title, "Notifications");
@@ -123,7 +123,6 @@ void NotificationPanel::update_list() {
 		lv_obj_set_size(item, lv_pct(100), LV_SIZE_CONTENT);
 		lv_obj_set_flex_flow(item, LV_FLEX_FLOW_ROW);
 		lv_obj_set_flex_align(item, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER);
-		lv_obj_set_style_pad_all(item, lv_dpx(UiConstants::PAD_DEFAULT), 0);
 
 		if (n.icon) {
 			lv_obj_t* icon = lv_image_create(item);
@@ -164,7 +163,7 @@ void NotificationPanel::update_list() {
 
 		lv_obj_t* close_btn = lv_button_create(item);
 		lv_obj_remove_style_all(close_btn);
-		lv_obj_add_style(close_btn, flx::ui::theming::StyleStore::getInstance().transparent(), 0);
+		lv_obj_add_style(close_btn, flx::ui::theming::StyleStore::getInstance().panelIconButton(), 0);
 		lv_obj_set_size(close_btn, lv_dpx(LayoutConstants::SIZE_TOUCH_TARGET), lv_dpx(LayoutConstants::SIZE_TOUCH_TARGET));
 		lv_obj_t* close_icon = lv_label_create(close_btn);
 		lv_label_set_text(close_icon, LV_SYMBOL_CLOSE);

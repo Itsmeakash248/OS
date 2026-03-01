@@ -21,6 +21,7 @@ void StyleStore::init(const tokens::DesignTokens& tokens) {
 
 	buildBaseStyles(tokens);
 	buildComponentStyles(tokens);
+	buildSubComponentStyles(tokens);
 	buildInteractiveStyles(tokens);
 	buildToggleStyles(tokens);
 	buildTypographyStyles(tokens);
@@ -37,6 +38,7 @@ void StyleStore::rebuild(const tokens::DesignTokens& tokens) {
 
 	buildBaseStyles(tokens);
 	buildComponentStyles(tokens);
+	buildSubComponentStyles(tokens);
 	buildInteractiveStyles(tokens);
 	buildToggleStyles(tokens);
 	buildTypographyStyles(tokens);
@@ -62,6 +64,17 @@ void StyleStore::resetAll() {
 	lv_style_reset(&m_windowContent);
 	lv_style_reset(&m_windowChrome);
 
+	lv_style_reset(&m_windowContainer);
+	lv_style_reset(&m_dockButton);
+	lv_style_reset(&m_dockAppContainer);
+	lv_style_reset(&m_panelHeader);
+	lv_style_reset(&m_panelIconButton);
+	lv_style_reset(&m_windowHeaderButton);
+	lv_style_reset(&m_screen);
+	lv_style_reset(&m_wallpaper);
+	lv_style_reset(&m_wallpaperImage);
+	lv_style_reset(&m_overlayLabel);
+
 	lv_style_reset(&m_buttonDefault);
 	lv_style_reset(&m_buttonPressed);
 	lv_style_reset(&m_buttonFocused);
@@ -85,6 +98,63 @@ void StyleStore::resetAll() {
 
 	lv_style_reset(&m_transparent);
 	lv_style_reset(&m_invisibleContainer);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Sub-Component Styles
+// Captures fine-grained layout/decoration previously set via lv_obj_set_style_*
+// ─────────────────────────────────────────────────────────────────────────────
+
+void StyleStore::buildSubComponentStyles(const tokens::DesignTokens& t) {
+	// ── Screen (root desktop object: bare, no bg, no border) ──
+	lv_style_init(&m_screen);
+	lv_style_set_bg_opa(&m_screen, LV_OPA_COVER);
+	lv_style_set_bg_color(&m_screen, t.colors.surface);
+
+	// ── Wallpaper container ──
+	lv_style_init(&m_wallpaper);
+	lv_style_set_bg_color(&m_wallpaper, t.colors.primary);
+	lv_style_set_bg_opa(&m_wallpaper, LV_OPA_COVER);
+
+	// ── Wallpaper image (zero padding + no border) ──
+	lv_style_init(&m_wallpaperImage);
+	lv_style_set_pad_all(&m_wallpaperImage, 0);
+	lv_style_set_border_width(&m_wallpaperImage, 0);
+
+	// ── Window container (tiling area) padding ──
+	lv_style_init(&m_windowContainer);
+	lv_style_set_pad_all(&m_windowContainer, 4); // PAD_SMALL equivalent
+
+	// ── Dock button (radius on top of transparent) ──
+	lv_style_init(&m_dockButton);
+	lv_style_set_radius(&m_dockButton, t.shapes.extraSmall);
+
+	// ── Dock app container (running-app row inside dock) ──
+	lv_style_init(&m_dockAppContainer);
+	lv_style_set_pad_hor(&m_dockAppContainer, 4); // PAD_SMALL equivalent
+	lv_style_set_pad_gap(&m_dockAppContainer, 4);
+
+	// ── Panel header row ──
+	lv_style_init(&m_panelHeader);
+	lv_style_set_pad_left(&m_panelHeader, 4);
+	lv_style_set_pad_right(&m_panelHeader, 4);
+	lv_style_set_pad_top(&m_panelHeader, 4);
+
+	// ── Panel icon button (settings/close button inside a panel) ──
+	lv_style_init(&m_panelIconButton);
+	lv_style_set_bg_opa(&m_panelIconButton, LV_OPA_TRANSP);
+	lv_style_set_border_width(&m_panelIconButton, 0);
+	lv_style_set_shadow_width(&m_panelIconButton, 0);
+	lv_style_set_pad_all(&m_panelIconButton, 4); // PAD_SMALL equivalent
+	lv_style_set_text_color(&m_panelIconButton, t.colors.onSurface);
+
+	// ── Window header control button min-width ──
+	lv_style_init(&m_windowHeaderButton);
+	lv_style_set_min_width(&m_windowHeaderButton, 20); // SIZE_HEADER dpx-equivalent
+
+	// ── Overlay label (dev/debug overlay text: gold) ──
+	lv_style_init(&m_overlayLabel);
+	lv_style_set_text_color(&m_overlayLabel, lv_color_hex(0xFFD700));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

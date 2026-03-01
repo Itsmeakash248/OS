@@ -92,26 +92,22 @@ void QuickAccessPanel::buildHeader() {
 
 	lv_obj_remove_style_all(header_cont);
 	lv_obj_add_style(header_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
+	lv_obj_add_style(header_cont, flx::ui::theming::StyleStore::getInstance().panelHeader(), 0);
 	lv_obj_set_size(header_cont, lv_pct(100), LV_SIZE_CONTENT);
 	lv_obj_set_flex_flow(header_cont, LV_FLEX_FLOW_ROW);
 	lv_obj_set_flex_align(header_cont, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-	lv_obj_set_style_pad_left(header_cont, lv_dpx(UiConstants::PAD_SMALL), 0);
-	lv_obj_set_style_pad_right(header_cont, lv_dpx(UiConstants::PAD_SMALL), 0);
-	lv_obj_set_style_pad_top(header_cont, lv_dpx(UiConstants::PAD_SMALL), 0);
 
 	lv_obj_t* label = lv_label_create(header_cont);
 	if (label) {
 		lv_label_set_text(label, "Quick Access");
-		lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_LEFT, 0);
 	}
 
 	lv_obj_t* settings_btn = lv_button_create(header_cont);
 	if (!settings_btn) return;
 
 	lv_obj_remove_style_all(settings_btn);
-	lv_obj_add_style(settings_btn, flx::ui::theming::StyleStore::getInstance().transparent(), 0);
+	lv_obj_add_style(settings_btn, flx::ui::theming::StyleStore::getInstance().panelIconButton(), 0);
 	lv_obj_set_size(settings_btn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-	lv_obj_set_style_pad_all(settings_btn, lv_dpx(UiConstants::PAD_SMALL), 0);
 
 	lv_obj_t* settings_icon = lv_image_create(settings_btn);
 	if (settings_icon) {
@@ -124,22 +120,6 @@ void QuickAccessPanel::buildHeader() {
         flx::apps::AppManager::getInstance().startApp(
             flx::apps::Intent::forApp("com.flxos.settings")
         ); }, LV_EVENT_CLICKED, nullptr);
-
-	lv_obj_set_style_text_color(settings_btn, Themes::GetConfig(ThemeEngine::get_current_theme()).text_primary, 0);
-
-	auto& uiTheme = flx::ui::theming::UiThemeManager::getInstance();
-	lv_subject_add_observer_obj(
-		uiTheme.getThemeSubject(),
-		[](lv_observer_t* observer, lv_subject_t* subject) {
-			lv_obj_t* btn = lv_observer_get_target_obj(observer);
-			if (btn && subject) {
-				ThemeType theme = (ThemeType)lv_subject_get_int(subject);
-				ThemeConfig cfg = Themes::GetConfig(theme);
-				lv_obj_set_style_text_color(btn, cfg.text_primary, 0);
-			}
-		},
-		settings_btn, nullptr
-	);
 }
 
 void QuickAccessPanel::buildToggles() {
@@ -306,7 +286,6 @@ void QuickAccessPanel::buildBrightnessSlider() {
 	if (slider) {
 		lv_obj_set_flex_grow(slider, 1);
 		lv_slider_set_range(slider, 0, 255);
-		lv_obj_set_style_anim_duration(slider, 200, 0);
 		lv_slider_bind_value(slider, m_brightnessBridge->getSubject());
 	}
 }

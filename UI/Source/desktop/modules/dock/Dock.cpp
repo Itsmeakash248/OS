@@ -24,11 +24,12 @@ Dock::Dock(lv_obj_t* parent, Callbacks callbacks)
 }
 
 lv_obj_t* Dock::create_dock_btn(lv_obj_t* parent, const char* icon, int32_t w, int32_t h) {
+	auto& ss = flx::ui::theming::StyleStore::getInstance();
 	lv_obj_t* btn = lv_button_create(parent);
 	lv_obj_remove_style_all(btn);
-	lv_obj_add_style(btn, flx::ui::theming::StyleStore::getInstance().transparent(), 0);
+	lv_obj_add_style(btn, ss.transparent(), 0);
+	lv_obj_add_style(btn, ss.dockButton(), 0);
 	lv_obj_set_size(btn, w, h);
-	lv_obj_set_style_radius(btn, lv_dpx(UiConstants::RADIUS_SMALL), 0);
 	lv_obj_t* img = lv_image_create(btn);
 	lv_image_set_src(img, icon);
 	lv_obj_center(img);
@@ -36,9 +37,10 @@ lv_obj_t* Dock::create_dock_btn(lv_obj_t* parent, const char* icon, int32_t w, i
 }
 
 void Dock::create() {
+	auto& ss = flx::ui::theming::StyleStore::getInstance();
 	m_dock = lv_obj_create(m_parent);
 	lv_obj_remove_style_all(m_dock);
-	lv_obj_add_style(m_dock, flx::ui::theming::StyleStore::getInstance().dock(), 0);
+	lv_obj_add_style(m_dock, ss.dock(), 0);
 	lv_obj_set_size(m_dock, lv_pct(UiConstants::SIZE_DOCK_WIDTH_PCT), lv_pct(UiConstants::SIZE_DOCK_HEIGHT_PCT));
 	lv_obj_set_style_margin_bottom(m_dock, lv_dpx(UiConstants::PAD_SMALL), 0);
 
@@ -54,10 +56,9 @@ void Dock::create() {
 
 	m_appContainer = lv_obj_create(m_dock);
 	lv_obj_remove_style_all(m_appContainer);
-	lv_obj_add_style(m_appContainer, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
+	lv_obj_add_style(m_appContainer, ss.invisibleContainer(), 0);
+	lv_obj_add_style(m_appContainer, ss.dockAppContainer(), 0);
 	lv_obj_set_size(m_appContainer, 0, lv_pct(100));
-	lv_obj_set_style_pad_hor(m_appContainer, lv_dpx(UiConstants::PAD_SMALL), 0);
-	lv_obj_set_style_pad_gap(m_appContainer, lv_dpx(UiConstants::PAD_SMALL), 0);
 	lv_obj_set_flex_grow(m_appContainer, 1);
 	lv_obj_set_flex_flow(m_appContainer, LV_FLEX_FLOW_ROW);
 	lv_obj_set_flex_align(m_appContainer, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);

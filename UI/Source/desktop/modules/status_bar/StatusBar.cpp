@@ -266,29 +266,27 @@ void StatusBar::create() {
 				int32_t const level = lv_subject_get_int(subject);
 
 				lv_label_set_text_fmt(label, "%d%%", (int)level);
+				const auto& colors = flx::ui::theming::StyleStore::getInstance().getTokens().colors;
 				if (level < 20) {
 					lv_image_set_src(icon, LV_SYMBOL_BATTERY_EMPTY);
-					lv_obj_set_style_text_color(label, Themes::GetConfig(ThemeEngine::get_current_theme()).error, 0);
+					lv_obj_set_style_text_color(label, colors.error, 0);
 				} else if (level < 50) {
 					lv_image_set_src(icon, LV_SYMBOL_BATTERY_1);
-					lv_obj_set_style_text_color(label, Themes::GetConfig(ThemeEngine::get_current_theme()).secondary, 0);
+					lv_obj_set_style_text_color(label, colors.secondary, 0);
 				} else if (level < 80) {
 					lv_image_set_src(icon, LV_SYMBOL_BATTERY_2);
-					lv_obj_set_style_text_color(label, Themes::GetConfig(ThemeEngine::get_current_theme()).text_primary, 0);
+					lv_obj_set_style_text_color(label, colors.onSurface, 0);
 				} else {
 					lv_image_set_src(icon, LV_SYMBOL_BATTERY_FULL);
-					lv_obj_set_style_text_color(label, Themes::GetConfig(ThemeEngine::get_current_theme()).text_primary, 0);
+					lv_obj_set_style_text_color(label, colors.onSurface, 0);
 				}
 
-				// Color based on level
+				// Icon recolor based on level
 				if (level <= 15) {
-					ThemeConfig const cfg = Themes::GetConfig(ThemeEngine::get_current_theme());
-					lv_obj_set_style_image_recolor(icon, cfg.error, 0);
+					lv_obj_set_style_image_recolor(icon, colors.error, 0);
 					lv_obj_set_style_image_recolor_opa(icon, UiConstants::OPA_COVER, 0);
 				} else {
-					// Fallback to theme primary color via status bar inheritance
-					ThemeConfig const cfg = Themes::GetConfig(ThemeEngine::get_current_theme());
-					lv_obj_set_style_image_recolor(icon, cfg.text_primary, 0);
+					lv_obj_set_style_image_recolor(icon, colors.onSurface, 0);
 					lv_obj_set_style_image_recolor_opa(icon, UiConstants::OPA_COVER, 0);
 				}
 			},
@@ -297,7 +295,7 @@ void StatusBar::create() {
 	}
 
 	s_overlayLabel = lv_label_create(m_statusBar);
-	lv_obj_set_style_text_color(s_overlayLabel, lv_color_hex(0xFFD700), 0);
+	lv_obj_add_style(s_overlayLabel, flx::ui::theming::StyleStore::getInstance().overlayLabel(), 0);
 	lv_obj_add_flag(s_overlayLabel, LV_OBJ_FLAG_HIDDEN);
 
 	m_timeLabel = lv_label_create(m_statusBar);

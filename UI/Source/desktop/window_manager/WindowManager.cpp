@@ -145,29 +145,30 @@ lv_obj_t* WindowManager::createAndConfigureAppButton(lv_obj_t* win, flx::apps::A
 void WindowManager::setupWindowHeader(lv_obj_t* win, flx::apps::App* app) {
 	lv_win_add_title(win, app->getAppName().c_str());
 	lv_obj_t* header = lv_win_get_header(win);
-	lv_obj_add_style(header, flx::ui::theming::StyleStore::getInstance().windowHeader(), 0);
+	auto& ss = flx::ui::theming::StyleStore::getInstance();
+	lv_obj_add_style(header, ss.windowHeader(), 0);
 	lv_obj_set_height(header, lv_pct(UiConstants::SIZE_WIN_HEADER_PCT));
 	lv_obj_set_style_min_height(header, lv_dpx(UiConstants::SIZE_HEADER), 0);
 	lv_obj_add_flag(header, LV_OBJ_FLAG_EVENT_BUBBLE);
 	lv_obj_remove_flag(header, LV_OBJ_FLAG_SCROLLABLE);
 
 	lv_obj_t* min_btn = lv_win_add_button(win, LV_SYMBOL_DOWN, lv_pct(UiConstants::SIZE_WIN_HEADER_PCT));
-	lv_obj_set_style_min_width(min_btn, lv_dpx(UiConstants::SIZE_HEADER), 0);
+	lv_obj_add_style(min_btn, ss.windowHeaderButton(), 0);
 	lv_obj_add_event_cb(min_btn, on_header_minimize, LV_EVENT_CLICKED, this);
 
 	lv_obj_t* max_btn = lv_win_add_button(win, LV_SYMBOL_PLUS, lv_pct(UiConstants::SIZE_WIN_HEADER_PCT));
-	lv_obj_set_style_min_width(max_btn, lv_dpx(UiConstants::SIZE_HEADER), 0);
+	lv_obj_add_style(max_btn, ss.windowHeaderButton(), 0);
 	if (lv_obj_get_child_count(max_btn) > 0) {
 		m_windowMaxBtnLabelMap[win] = lv_obj_get_child(max_btn, 0);
 	}
 	lv_obj_add_event_cb(max_btn, on_win_maximize, LV_EVENT_CLICKED, this);
 
 	lv_obj_t* close_btn = lv_win_add_button(win, LV_SYMBOL_CLOSE, lv_pct(UiConstants::SIZE_WIN_HEADER_PCT));
-	lv_obj_set_style_min_width(close_btn, lv_dpx(UiConstants::SIZE_HEADER), 0);
+	lv_obj_add_style(close_btn, ss.windowHeaderButton(), 0);
 	lv_obj_add_event_cb(close_btn, on_win_close, LV_EVENT_CLICKED, this);
 
 	lv_obj_t* content = lv_win_get_content(win);
-	lv_obj_set_style_pad_all(content, 0, 0);
+	lv_obj_add_style(content, ss.windowContent(), 0);
 	lv_obj_add_flag(content, LV_OBJ_FLAG_EVENT_BUBBLE);
 }
 

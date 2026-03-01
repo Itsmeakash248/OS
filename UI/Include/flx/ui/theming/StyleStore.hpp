@@ -72,6 +72,36 @@ public:
 	/// Window chrome (outer frame).
 	lv_style_t* windowChrome() { return &m_windowChrome; }
 
+	/// Window container padding (the area that holds tiled windows).
+	lv_style_t* windowContainer() { return &m_windowContainer; }
+
+	/// Dock button: radius-only style applied on top of transparent().
+	lv_style_t* dockButton() { return &m_dockButton; }
+
+	/// Dock app container: horizontal padding + gap for running-app row.
+	lv_style_t* dockAppContainer() { return &m_dockAppContainer; }
+
+	/// Panel header row: horizontal + top padding.
+	lv_style_t* panelHeader() { return &m_panelHeader; }
+
+	/// Icon button (settings/close inside panels): transparent + compact padding.
+	lv_style_t* panelIconButton() { return &m_panelIconButton; }
+
+	/// Window header control buttons (minimize/maximize/close): min-width guard.
+	lv_style_t* windowHeaderButton() { return &m_windowHeaderButton; }
+
+	/// Desktop root screen (bare, no decoration).
+	lv_style_t* screen() { return &m_screen; }
+
+	/// Wallpaper background object.
+	lv_style_t* wallpaper() { return &m_wallpaper; }
+
+	/// Wallpaper image (zero padding + border).
+	lv_style_t* wallpaperImage() { return &m_wallpaperImage; }
+
+	/// Overlay / debug label (gold text for dev overlays).
+	lv_style_t* overlayLabel() { return &m_overlayLabel; }
+
 	// ── Interactive State Styles ─────────────────────────────────────
 	// Apply with LV_STATE_* selectors, e.g.:
 	//   lv_obj_add_style(btn, ss.buttonDefault(), 0);
@@ -136,6 +166,7 @@ private:
 	void buildToggleStyles(const tokens::DesignTokens& t);
 	void buildTypographyStyles(const tokens::DesignTokens& t);
 	void buildUtilityStyles(const tokens::DesignTokens& t);
+	void buildSubComponentStyles(const tokens::DesignTokens& t);
 
 	/// Reset all lv_style_t objects (must be called before rebuilding).
 	void resetAll();
@@ -155,6 +186,18 @@ private:
 	lv_style_t m_windowHeader {};
 	lv_style_t m_windowContent {};
 	lv_style_t m_windowChrome {};
+
+	// Sub-component
+	lv_style_t m_windowContainer {};
+	lv_style_t m_dockButton {};
+	lv_style_t m_dockAppContainer {};
+	lv_style_t m_panelHeader {};
+	lv_style_t m_panelIconButton {};
+	lv_style_t m_windowHeaderButton {};
+	lv_style_t m_screen {};
+	lv_style_t m_wallpaper {};
+	lv_style_t m_wallpaperImage {};
+	lv_style_t m_overlayLabel {};
 
 	// Interactive
 	lv_style_t m_buttonDefault {};
