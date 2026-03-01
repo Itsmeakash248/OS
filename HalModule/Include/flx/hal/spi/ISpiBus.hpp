@@ -9,9 +9,7 @@ namespace flx::hal::spi {
 /**
  * @brief Abstract interface for an SPI bus controller.
  *
- * Surpasses Tactility — Tactility bridges SPI locking through
- * a C kernel spi_controller_try_lock() shim. FlxOS uses pure C++
- * with a centralized contention manager.
+ * FlxOS uses pure C++ with a centralized contention manager.
  *
  * Usage:
  *   auto& bus = DeviceRegistry::getInstance().findFirst<ISpiBus>(Type::Spi);
@@ -67,7 +65,7 @@ public:
 		ScopedLock& operator=(const ScopedLock&) = delete;
 	};
 
-	// ── Bus statistics (surpasses Tactility) ──────────────────────────────
+	// ── Bus statistics ────────────────────────────────────────────────────
 	virtual uint32_t getTransactionCount() const { return 0; }
 	virtual uint32_t getContentionCount() const { return 0; }
 };

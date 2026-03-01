@@ -14,9 +14,9 @@ namespace flx::hal::input {
  *
  * Implemented by I2C keypads (TCA8418), rotary encoders, trackballs, etc.
  *
- * Key improvements over Tactility's separate Keyboard/Encoder devices:
+ * Key features:
  *  - Unified input hierarchy.
- *  - Raw key event subscription (Tactility only feeds LVGL indevs implicitly).
+ *  - Raw key event subscription.
  *  - Supports multiple input types (Trackball added).
  */
 class IInputDevice : public flx::hal::IDevice {

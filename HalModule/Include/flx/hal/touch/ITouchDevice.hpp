@@ -13,10 +13,10 @@ namespace flx::hal::touch {
  *
  * Implemented by LgfxTouchDevice (LovyanGFX-backed).
  *
- * Key improvements over Tactility's TouchDevice:
- *  - Gesture support API (Tactility: missing in most drivers)
- *  - Runtime calibration via setCalibration() (Tactility: no runtime recal)
- *  - Multi-touch point API (Tactility: single-touch everywhere)
+ * Key features:
+ *  - Gesture support API
+ *  - Runtime calibration via setCalibration()
+ *  - Multi-touch point API
  *  - Integrated with display association model
  */
 class ITouchDevice : public flx::hal::IDevice {
@@ -40,11 +40,10 @@ public:
 	/**
      * @brief Maximum simultaneous touch points this device supports.
      * Most resistive panels: 1. Capacitive GT911: 5. RST others: 2–10.
-     * Surpasses Tactility — Tactility returns 1 for all drivers.
      */
 	virtual uint8_t getMaxTouchPoints() const { return 1; }
 
-	// ── Gesture support (surpasses Tactility) ─────────────────────────────
+	// ── Gesture support ───────────────────────────────────────────────────
 	enum class Gesture : uint8_t {
 		None,
 		SwipeUp,
@@ -65,7 +64,7 @@ public:
      */
 	virtual struct _lv_indev_t* getLvglIndev() const = 0;
 
-	// ── Runtime calibration (surpasses Tactility) ─────────────────────────
+	// ── Runtime calibration ───────────────────────────────────────────────
 	/**
      * @brief Touch calibration parameters.
      * xMin/xMax/yMin/yMax: raw ADC bounds for resistive panels.
@@ -84,7 +83,6 @@ public:
 	/**
      * @brief Update touch calibration at runtime.
      * Persist the result to NVS via SettingsManager if needed.
-     * Tactility has no runtime recalibration support.
      */
 	virtual void setCalibration(const CalibrationData& cal) { (void)cal; }
 };
