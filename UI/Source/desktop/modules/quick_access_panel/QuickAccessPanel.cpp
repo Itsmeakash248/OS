@@ -1,4 +1,5 @@
 #include <flx/ui/desktop/modules/quick_access_panel/QuickAccessPanel.hpp>
+#include <flx/ui/theming/StyleStore.hpp>
 #include <flx/ui/theming/StyleUtils.hpp>
 #include <flx/ui/theming/layout_constants/LayoutConstants.hpp>
 #include <flx/ui/theming/theme_engine/ThemeEngine.hpp>
@@ -70,10 +71,9 @@ bool QuickAccessPanel::setupPanel() {
 		return false;
 	}
 
+	lv_obj_remove_style_all(m_panel);
+	lv_obj_add_style(m_panel, flx::ui::theming::StyleStore::getInstance().panel(), 0);
 	lv_obj_set_size(m_panel, lv_pct(LayoutConstants::PANEL_WIDTH_PCT), lv_pct(LayoutConstants::PANEL_HEIGHT_PCT));
-	lv_obj_set_style_pad_all(m_panel, 0, 0);
-	lv_obj_set_style_radius(m_panel, lv_dpx(UiConstants::RADIUS_LARGE), 0);
-	lv_obj_set_style_border_width(m_panel, 0, 0);
 	lv_obj_add_flag(m_panel, LV_OBJ_FLAG_FLOATING);
 	lv_obj_add_flag(m_panel, LV_OBJ_FLAG_HIDDEN);
 
@@ -91,6 +91,7 @@ void QuickAccessPanel::buildHeader() {
 	if (!header_cont) return;
 
 	lv_obj_remove_style_all(header_cont);
+	lv_obj_add_style(header_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(header_cont, lv_pct(100), LV_SIZE_CONTENT);
 	lv_obj_set_flex_flow(header_cont, LV_FLEX_FLOW_ROW);
 	lv_obj_set_flex_align(header_cont, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -107,9 +108,9 @@ void QuickAccessPanel::buildHeader() {
 	lv_obj_t* settings_btn = lv_button_create(header_cont);
 	if (!settings_btn) return;
 
+	lv_obj_remove_style_all(settings_btn);
+	lv_obj_add_style(settings_btn, flx::ui::theming::StyleStore::getInstance().transparent(), 0);
 	lv_obj_set_size(settings_btn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-	lv_obj_set_style_bg_opa(settings_btn, LV_OPA_TRANSP, 0);
-	lv_obj_set_style_shadow_width(settings_btn, 0, 0);
 	lv_obj_set_style_pad_all(settings_btn, lv_dpx(UiConstants::PAD_SMALL), 0);
 
 	lv_obj_t* settings_icon = lv_image_create(settings_btn);
@@ -146,6 +147,7 @@ void QuickAccessPanel::buildToggles() {
 	if (!toggles_cont) return;
 
 	lv_obj_remove_style_all(toggles_cont);
+	lv_obj_add_style(toggles_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(toggles_cont, lv_pct(100), LV_SIZE_CONTENT);
 	lv_obj_set_flex_flow(toggles_cont, LV_FLEX_FLOW_ROW_WRAP);
 	lv_obj_set_style_pad_gap(toggles_cont, lv_dpx(UiConstants::PAD_SMALL), 0);
@@ -158,14 +160,17 @@ void QuickAccessPanel::buildToggles() {
 		lv_obj_t* theme_cont = lv_obj_create(toggles_cont);
 		if (theme_cont) {
 			lv_obj_remove_style_all(theme_cont);
+			lv_obj_add_style(theme_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 			lv_obj_set_size(theme_cont, lv_pct(30), LV_SIZE_CONTENT);
 			lv_obj_set_flex_flow(theme_cont, LV_FLEX_FLOW_COLUMN);
 			lv_obj_set_flex_align(theme_cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
 			lv_obj_t* theme_btn = lv_button_create(theme_cont);
 			if (theme_btn) {
+				lv_obj_remove_style_all(theme_btn);
+				lv_obj_add_style(theme_btn, flx::ui::theming::StyleStore::getInstance().toggleOff(), 0);
+				lv_obj_add_style(theme_btn, flx::ui::theming::StyleStore::getInstance().toggleOn(), LV_STATE_CHECKED);
 				lv_obj_set_size(theme_btn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-				lv_obj_set_style_radius(theme_btn, LV_RADIUS_CIRCLE, 0);
 				lv_obj_add_flag(theme_btn, LV_OBJ_FLAG_CHECKABLE);
 
 				lv_obj_t* theme_icon = lv_label_create(theme_btn);
@@ -201,6 +206,7 @@ void QuickAccessPanel::buildToggles() {
 		lv_obj_t* rot_cont = lv_obj_create(toggles_cont);
 		if (rot_cont) {
 			lv_obj_remove_style_all(rot_cont);
+			lv_obj_add_style(rot_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 			lv_obj_set_size(rot_cont, lv_pct(30), LV_SIZE_CONTENT);
 			lv_obj_set_flex_flow(rot_cont, LV_FLEX_FLOW_COLUMN);
 			lv_obj_set_flex_align(rot_cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -209,9 +215,9 @@ void QuickAccessPanel::buildToggles() {
 
 			lv_obj_t* rot_btn = lv_button_create(rot_cont);
 			if (rot_btn) {
+				lv_obj_remove_style_all(rot_btn);
+				lv_obj_add_style(rot_btn, flx::ui::theming::StyleStore::getInstance().toggleOn(), 0);
 				lv_obj_set_size(rot_btn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-				lv_obj_set_style_radius(rot_btn, LV_RADIUS_CIRCLE, 0);
-				lv_obj_set_style_bg_color(rot_btn, lv_palette_main(LV_PALETTE_BLUE), 0);
 
 				lv_obj_t* rot_icon = lv_label_create(rot_btn);
 				lv_label_set_text(rot_icon, LV_SYMBOL_REFRESH);
@@ -243,14 +249,17 @@ void QuickAccessPanel::buildToggles() {
 		lv_obj_t* shot_cont = lv_obj_create(toggles_cont);
 		if (shot_cont) {
 			lv_obj_remove_style_all(shot_cont);
+			lv_obj_add_style(shot_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 			lv_obj_set_size(shot_cont, lv_pct(30), LV_SIZE_CONTENT);
 			lv_obj_set_flex_flow(shot_cont, LV_FLEX_FLOW_COLUMN);
 			lv_obj_set_flex_align(shot_cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
 			lv_obj_t* shot_btn = lv_button_create(shot_cont);
 			if (shot_btn) {
+				lv_obj_remove_style_all(shot_btn);
+				lv_obj_add_style(shot_btn, flx::ui::theming::StyleStore::getInstance().toggleOff(), 0);
+				lv_obj_add_style(shot_btn, flx::ui::theming::StyleStore::getInstance().buttonPressed(), LV_STATE_PRESSED);
 				lv_obj_set_size(shot_btn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-				lv_obj_set_style_radius(shot_btn, LV_RADIUS_CIRCLE, 0);
 				lv_obj_t* shot_icon = lv_image_create(shot_btn);
 				if (shot_icon) {
 					lv_image_set_src(shot_icon, LV_SYMBOL_CUT);
@@ -282,6 +291,7 @@ void QuickAccessPanel::buildBrightnessSlider() {
 	if (!slider_cont) return;
 
 	lv_obj_remove_style_all(slider_cont);
+	lv_obj_add_style(slider_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(slider_cont, lv_pct(100), LV_SIZE_CONTENT);
 	lv_obj_set_flex_flow(slider_cont, LV_FLEX_FLOW_ROW);
 	lv_obj_set_flex_align(slider_cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);

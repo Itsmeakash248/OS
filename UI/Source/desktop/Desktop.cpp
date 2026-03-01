@@ -189,15 +189,7 @@ void Desktop::init() {
 	}
 }
 
-void Desktop::configure_panel_style(lv_obj_t* panel) {
-	lv_obj_set_size(panel, lv_pct(LayoutConstants::PANEL_WIDTH_PCT), lv_pct(LayoutConstants::PANEL_HEIGHT_PCT));
-	lv_obj_set_style_pad_all(panel, 0, 0);
-	lv_obj_set_style_radius(panel, lv_dpx(UiConstants::RADIUS_LARGE), 0);
-	lv_obj_set_style_border_width(panel, 0, 0);
-	lv_obj_add_flag(panel, LV_OBJ_FLAG_FLOATING);
-	lv_obj_add_flag(panel, LV_OBJ_FLAG_HIDDEN);
-	UI::StyleUtils::apply_glass(panel, lv_dpx(UiConstants::GLASS_BLUR_SMALL));
-}
+
 
 void Desktop::createWallpaperImage(const char* path) {
 	// Drop cache for old wallpaper before loading new one

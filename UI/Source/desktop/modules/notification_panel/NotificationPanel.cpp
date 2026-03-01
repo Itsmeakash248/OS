@@ -20,6 +20,7 @@
 #include <flx/system/managers/NotificationManager.hpp>
 #include <flx/ui/GuiTask.hpp>
 #include <flx/ui/desktop/modules/notification_panel/NotificationPanel.hpp>
+#include <flx/ui/theming/StyleStore.hpp>
 #include <flx/ui/theming/StyleUtils.hpp>
 #include <flx/ui/theming/layout_constants/LayoutConstants.hpp>
 #include <flx/ui/theming/ui_constants/UiConstants.hpp>
@@ -38,11 +39,9 @@ NotificationPanel::~NotificationPanel() {
 
 void NotificationPanel::create() {
 	m_panel = lv_obj_create(m_parent);
-	// configure_panel_style(notification_panel) logic:
+	lv_obj_remove_style_all(m_panel);
+	lv_obj_add_style(m_panel, flx::ui::theming::StyleStore::getInstance().panel(), 0);
 	lv_obj_set_size(m_panel, lv_pct(100), lv_pct(UiConstants::SIZE_NOTIF_PANEL_HEIGHT_PCT));
-	lv_obj_set_style_pad_all(m_panel, 0, 0);
-	lv_obj_set_style_radius(m_panel, lv_dpx(UiConstants::RADIUS_LARGE), 0);
-	lv_obj_set_style_border_width(m_panel, 0, 0);
 	lv_obj_add_flag(m_panel, LV_OBJ_FLAG_HIDDEN);
 	lv_obj_add_flag(m_panel, LV_OBJ_FLAG_FLOATING);
 	UI::StyleUtils::apply_glass(m_panel, lv_dpx(UiConstants::GLASS_BLUR_SMALL));
@@ -52,6 +51,7 @@ void NotificationPanel::create() {
 
 	lv_obj_t* header = lv_obj_create(m_panel);
 	lv_obj_remove_style_all(header);
+	lv_obj_add_style(header, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(header, lv_pct(100), LV_SIZE_CONTENT);
 	lv_obj_set_flex_flow(header, LV_FLEX_FLOW_ROW);
 	lv_obj_set_flex_align(header, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -69,6 +69,7 @@ void NotificationPanel::create() {
 
 	m_list = lv_obj_create(m_panel);
 	lv_obj_remove_style_all(m_list);
+	lv_obj_add_style(m_list, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_width(m_list, lv_pct(100));
 	lv_obj_set_flex_grow(m_list, 1);
 	lv_obj_set_flex_flow(m_list, LV_FLEX_FLOW_COLUMN);
@@ -117,9 +118,9 @@ void NotificationPanel::update_list() {
 
 	for (const auto& n: notifs) {
 		lv_obj_t* item = lv_obj_create(m_list);
+		lv_obj_remove_style_all(item);
+		lv_obj_add_style(item, flx::ui::theming::StyleStore::getInstance().card(), 0);
 		lv_obj_set_size(item, lv_pct(100), LV_SIZE_CONTENT);
-		lv_obj_set_style_radius(item, lv_dpx(UiConstants::RADIUS_DEFAULT), 0);
-		lv_obj_set_style_bg_opa(item, UiConstants::OPA_ITEM_BG, 0);
 		lv_obj_set_flex_flow(item, LV_FLEX_FLOW_ROW);
 		lv_obj_set_flex_align(item, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER);
 		lv_obj_set_style_pad_all(item, lv_dpx(UiConstants::PAD_DEFAULT), 0);
@@ -131,6 +132,7 @@ void NotificationPanel::update_list() {
 
 		lv_obj_t* content = lv_obj_create(item);
 		lv_obj_remove_style_all(content);
+		lv_obj_add_style(content, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 		lv_obj_set_size(content, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 		lv_obj_set_flex_grow(content, 1);
 		lv_obj_set_flex_flow(content, LV_FLEX_FLOW_COLUMN);
@@ -138,6 +140,7 @@ void NotificationPanel::update_list() {
 
 		lv_obj_t* header_cont = lv_obj_create(content);
 		lv_obj_remove_style_all(header_cont);
+		lv_obj_add_style(header_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 		lv_obj_set_size(header_cont, lv_pct(100), LV_SIZE_CONTENT);
 		lv_obj_set_flex_flow(header_cont, LV_FLEX_FLOW_ROW);
 		lv_obj_set_flex_align(header_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -160,8 +163,9 @@ void NotificationPanel::update_list() {
 		lv_obj_set_style_text_opa(msg_lbl, UiConstants::OPA_70, 0);
 
 		lv_obj_t* close_btn = lv_button_create(item);
+		lv_obj_remove_style_all(close_btn);
+		lv_obj_add_style(close_btn, flx::ui::theming::StyleStore::getInstance().transparent(), 0);
 		lv_obj_set_size(close_btn, lv_dpx(LayoutConstants::SIZE_TOUCH_TARGET), lv_dpx(LayoutConstants::SIZE_TOUCH_TARGET));
-		lv_obj_set_style_radius(close_btn, LV_RADIUS_CIRCLE, 0);
 		lv_obj_t* close_icon = lv_label_create(close_btn);
 		lv_label_set_text(close_icon, LV_SYMBOL_CLOSE);
 		lv_obj_center(close_icon);

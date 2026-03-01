@@ -13,6 +13,7 @@
 #include <flx/apps/AppManifest.hpp>
 #include <flx/apps/AppRegistry.hpp>
 #include <flx/ui/desktop/modules/launcher/Launcher.hpp>
+#include <flx/ui/theming/StyleStore.hpp>
 #include <flx/ui/theming/StyleUtils.hpp>
 #include <flx/ui/theming/layout_constants/LayoutConstants.hpp>
 #include <flx/ui/theming/ui_constants/UiConstants.hpp>
@@ -26,11 +27,9 @@ Launcher::Launcher(lv_obj_t* parent, lv_obj_t* dock, lv_event_cb_t appClickCb, v
 
 void Launcher::create() {
 	m_panel = lv_obj_create(m_parent);
-	// configure_panel_style(launcher) logic:
+	lv_obj_remove_style_all(m_panel);
+	lv_obj_add_style(m_panel, flx::ui::theming::StyleStore::getInstance().panel(), 0);
 	lv_obj_set_size(m_panel, lv_pct(LayoutConstants::PANEL_WIDTH_PCT), lv_pct(LayoutConstants::PANEL_HEIGHT_PCT));
-	lv_obj_set_style_pad_all(m_panel, 0, 0);
-	lv_obj_set_style_radius(m_panel, lv_dpx(UiConstants::RADIUS_LARGE), 0);
-	lv_obj_set_style_border_width(m_panel, 0, 0);
 	lv_obj_add_flag(m_panel, LV_OBJ_FLAG_FLOATING);
 	lv_obj_add_flag(m_panel, LV_OBJ_FLAG_HIDDEN);
 	UI::StyleUtils::apply_glass(m_panel, lv_dpx(UiConstants::GLASS_BLUR_SMALL));
@@ -46,6 +45,7 @@ void Launcher::create() {
 
 	m_list = lv_obj_create(m_panel);
 	lv_obj_remove_style_all(m_list);
+	lv_obj_add_style(m_list, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_width(m_list, lv_pct(100));
 	lv_obj_set_flex_grow(m_list, 1);
 	lv_obj_set_flex_flow(m_list, LV_FLEX_FLOW_COLUMN);
@@ -60,9 +60,10 @@ void Launcher::create() {
 			continue;
 		}
 		lv_obj_t* btn = lv_button_create(m_list);
+		lv_obj_remove_style_all(btn);
+		lv_obj_add_style(btn, flx::ui::theming::StyleStore::getInstance().transparent(), 0);
+		lv_obj_add_style(btn, flx::ui::theming::StyleStore::getInstance().buttonPressed(), LV_STATE_PRESSED);
 		lv_obj_set_width(btn, lv_pct(100));
-		lv_obj_set_style_border_width(btn, 0, 0);
-		lv_obj_set_style_shadow_width(btn, 0, 0);
 		lv_obj_set_style_pad_all(btn, lv_dpx(UiConstants::PAD_LARGE), 0);
 		lv_obj_set_flex_flow(btn, LV_FLEX_FLOW_ROW);
 		lv_obj_set_flex_align(btn, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);

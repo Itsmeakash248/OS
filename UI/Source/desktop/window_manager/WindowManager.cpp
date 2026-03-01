@@ -11,6 +11,7 @@
 #include <flx/ui/GuiTask.hpp>
 #include <flx/ui/desktop/modules/dock/Dock.hpp>
 #include <flx/ui/managers/FocusManager.hpp>
+#include <flx/ui/theming/StyleStore.hpp>
 #include <flx/ui/theming/UiThemeManager.hpp>
 #include <string_view>
 
@@ -76,10 +77,7 @@ void WindowManager::openApp(const std::string& packageName) {
 		return;
 	}
 
-	lv_obj_set_style_radius(win, lv_dpx(UiConstants::RADIUS_DEFAULT), 0);
-	lv_obj_set_style_clip_corner(win, true, 0);
-
-	lv_obj_set_style_border_post(win, true, 0);
+	lv_obj_add_style(win, flx::ui::theming::StyleStore::getInstance().windowChrome(), 0);
 
 	m_windowAppMap[win] = packageName;
 	m_tiledWindows.push_back(win);
@@ -147,9 +145,9 @@ lv_obj_t* WindowManager::createAndConfigureAppButton(lv_obj_t* win, flx::apps::A
 void WindowManager::setupWindowHeader(lv_obj_t* win, flx::apps::App* app) {
 	lv_win_add_title(win, app->getAppName().c_str());
 	lv_obj_t* header = lv_win_get_header(win);
+	lv_obj_add_style(header, flx::ui::theming::StyleStore::getInstance().windowHeader(), 0);
 	lv_obj_set_height(header, lv_pct(UiConstants::SIZE_WIN_HEADER_PCT));
 	lv_obj_set_style_min_height(header, lv_dpx(UiConstants::SIZE_HEADER), 0);
-	lv_obj_set_style_pad_all(header, 0, 0);
 	lv_obj_add_flag(header, LV_OBJ_FLAG_EVENT_BUBBLE);
 	lv_obj_remove_flag(header, LV_OBJ_FLAG_SCROLLABLE);
 
