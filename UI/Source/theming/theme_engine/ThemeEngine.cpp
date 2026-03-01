@@ -11,7 +11,9 @@
 #include <flx/core/Logger.hpp>
 #include <flx/system/managers/ThemeManager.hpp>
 #include <flx/ui/GuiTask.hpp>
+#include <flx/ui/theming/StyleStore.hpp>
 #include <flx/ui/theming/theme_engine/ThemeEngine.hpp>
+#include <flx/ui/theming/tokens/DesignTokens.hpp>
 #include <map>
 #include <string_view>
 #include <vector>
@@ -82,6 +84,39 @@ void ThemeEngine::cleanup_previous_theme(lv_display_t* disp) {
 	}
 }
 
+static flx::ui::tokens::DesignTokens createDesignTokensFromConfig(const ThemeConfig& cfg) {
+	using namespace flx::ui::tokens;
+	DesignTokens t {};
+
+	t.colors.primary = cfg.primary;
+	t.colors.onPrimary = cfg.on_primary;
+	t.colors.primaryContainer = cfg.primary;
+	t.colors.onPrimaryContainer = cfg.on_primary;
+
+	t.colors.secondary = cfg.secondary;
+	t.colors.onSecondary = cfg.text_primary;
+	t.colors.secondaryContainer = cfg.secondary;
+	t.colors.onSecondaryContainer = cfg.text_primary;
+
+	t.colors.surface = cfg.surface;
+	t.colors.surfaceContainer = cfg.surface;
+	t.colors.surfaceContainerHigh = cfg.surface;
+	t.colors.surfaceContainerHighest = cfg.surface;
+	t.colors.onSurface = cfg.text_primary;
+	t.colors.onSurfaceVariant = cfg.text_secondary;
+
+	t.colors.error = cfg.error;
+	t.colors.shadow = lv_color_black();
+
+	t.shapes = defaultShapeTokens();
+	t.motion = defaultMotionTokens();
+	t.elevation = defaultElevationTokens();
+	t.stateLayer = defaultStateLayerTokens();
+
+	// Typography stays null (StyleStore ignores null fonts, falling back to LVGL defaults)
+	return t;
+}
+
 void ThemeEngine::apply_theme(ThemeType theme, lv_display_t* disp) {
 	GuiTask::lock();
 	if (!disp) {
@@ -94,6 +129,13 @@ void ThemeEngine::apply_theme(ThemeType theme, lv_display_t* disp) {
 
 	ThemeConfig const cfg = Themes::GetConfig(theme);
 	Log::debug(TAG, "Applying theme: %d (Dark: %s)", (int)theme, cfg.dark ? "Yes" : "No");
+
+	auto tokens = createDesignTokensFromConfig(cfg);
+	auto& ss = flx::ui::theming::StyleStore::getInstance();
+	if (!ss.isInitialized()) ss.init(tokens);
+	else
+		ss.rebuild(tokens);
+
 	std::vector<lv_theme_t*> new_themes_vec;
 
 	lv_theme_t* base_th = lv_theme_default_init(disp, cfg.primary, cfg.secondary, cfg.dark, LV_FONT_DEFAULT);

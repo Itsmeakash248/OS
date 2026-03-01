@@ -21,6 +21,7 @@
 #include <flx/system/managers/NotificationManager.hpp>
 #include <flx/system/managers/PowerManager.hpp>
 #include <flx/ui/desktop/modules/status_bar/StatusBar.hpp>
+#include <flx/ui/theming/StyleStore.hpp>
 #include <flx/ui/theming/StyleUtils.hpp>
 #include <flx/ui/theming/layout_constants/LayoutConstants.hpp>
 #include <flx/ui/theming/theme_engine/ThemeEngine.hpp>
@@ -49,8 +50,8 @@ void StatusBar::create() {
 	m_statusBar = lv_obj_create(m_parent);
 	s_statusBarInstance = m_statusBar;
 	lv_obj_remove_style_all(m_statusBar);
+	lv_obj_add_style(m_statusBar, flx::ui::theming::StyleStore::getInstance().statusBar(), 0);
 	lv_obj_set_size(m_statusBar, lv_pct(100), lv_pct(UiConstants::SIZE_STATUS_BAR_HEIGHT_PCT));
-	lv_obj_set_style_pad_hor(m_statusBar, lv_dpx(UiConstants::PAD_SMALL), 0);
 	lv_obj_set_scroll_dir(m_statusBar, LV_DIR_NONE);
 
 	UI::StyleUtils::apply_glass(m_statusBar, lv_dpx(UiConstants::GLASS_BLUR_DEFAULT));
@@ -67,6 +68,7 @@ void StatusBar::create() {
 
 	lv_obj_t* left_group = lv_obj_create(m_statusBar);
 	lv_obj_remove_style_all(left_group);
+	lv_obj_add_style(left_group, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(left_group, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 	lv_obj_set_flex_grow(left_group, 1);
 	lv_obj_set_flex_flow(left_group, LV_FLEX_FLOW_ROW);
@@ -82,6 +84,7 @@ void StatusBar::create() {
 
 	lv_obj_t* wifi_cont = lv_obj_create(left_group);
 	lv_obj_remove_style_all(wifi_cont);
+	lv_obj_add_style(wifi_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(wifi_cont, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 	lv_obj_t* wifi_icon = lv_image_create(wifi_cont);
 	lv_image_set_src(wifi_icon, LV_SYMBOL_WIFI);
@@ -118,6 +121,7 @@ void StatusBar::create() {
 
 	lv_obj_t* hotspot_icon = lv_obj_create(left_group);
 	lv_obj_remove_style_all(hotspot_icon);
+	lv_obj_add_style(hotspot_icon, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(hotspot_icon, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 	lv_obj_set_flex_flow(hotspot_icon, LV_FLEX_FLOW_ROW);
 	lv_obj_set_flex_align(hotspot_icon, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -180,6 +184,7 @@ void StatusBar::create() {
 
 	lv_obj_t* bt_cont = lv_obj_create(left_group);
 	lv_obj_remove_style_all(bt_cont);
+	lv_obj_add_style(bt_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(bt_cont, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 	lv_obj_t* bt_icon = lv_image_create(bt_cont);
 	lv_image_set_src(bt_icon, LV_SYMBOL_BLUETOOTH);
@@ -207,6 +212,7 @@ void StatusBar::create() {
 
 	lv_obj_t* notif_btn = lv_obj_create(left_group);
 	lv_obj_remove_style_all(notif_btn);
+	lv_obj_add_style(notif_btn, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 	lv_obj_set_size(notif_btn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 	lv_obj_set_flex_flow(notif_btn, LV_FLEX_FLOW_ROW);
 	lv_obj_set_flex_align(notif_btn, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -242,6 +248,7 @@ void StatusBar::create() {
 	if (flx::system::PowerManager::getInstance().getIsConfiguredObservable().get()) {
 		lv_obj_t* batt_cont = lv_obj_create(m_statusBar);
 		lv_obj_remove_style_all(batt_cont);
+		lv_obj_add_style(batt_cont, flx::ui::theming::StyleStore::getInstance().invisibleContainer(), 0);
 		lv_obj_set_size(batt_cont, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 		lv_obj_set_flex_flow(batt_cont, LV_FLEX_FLOW_ROW);
 		lv_obj_set_flex_align(batt_cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
