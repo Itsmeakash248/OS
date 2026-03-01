@@ -2,6 +2,10 @@
 #include "../themes/Themes.hpp"
 #include "lvgl.h"
 
+namespace flx::ui::theming {
+class ThemeRegistry;
+}
+
 class ThemeEngine {
 public:
 
@@ -9,6 +13,9 @@ public:
 	static void set_theme(ThemeType theme, lv_display_t* disp = nullptr);
 	static ThemeType get_current_theme();
 	static void cycle_theme();
+
+	/// Access the shared ThemeRegistry (for registering user themes, etc.)
+	static flx::ui::theming::ThemeRegistry& getRegistry();
 
 private:
 
