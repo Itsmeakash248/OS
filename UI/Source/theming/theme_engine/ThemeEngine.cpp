@@ -4,6 +4,7 @@
 #include "misc/lv_types.h"
 #include "themes/default/lv_theme_default.h"
 #include "themes/lv_theme.h"
+#include "themes/lv_theme_private.h"
 #include <cstddef>
 #include <cstdint>
 #include <flx/core/Logger.hpp>
