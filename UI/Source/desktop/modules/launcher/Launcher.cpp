@@ -39,6 +39,7 @@ void Launcher::create() {
 
 	lv_obj_t* label = lv_label_create(m_panel);
 	lv_label_set_text(label, "Applications");
+	lv_obj_add_style(label, flx::ui::theming::StyleStore::getInstance().textHeadlineSmall(), 0);
 	lv_obj_set_width(label, lv_pct(100));
 	lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
 	lv_obj_set_style_pad_all(label, lv_dpx(UiConstants::PAD_MEDIUM), 0);
@@ -74,6 +75,7 @@ void Launcher::create() {
 
 		lv_obj_t* name = lv_label_create(btn);
 		lv_label_set_text(name, app->getAppName().c_str());
+		lv_obj_add_style(name, flx::ui::theming::StyleStore::getInstance().textBodyMedium(), 0);
 
 		lv_obj_set_user_data(btn, app.get());
 		lv_obj_add_event_cb(btn, m_appClickCb, LV_EVENT_CLICKED, m_userData);

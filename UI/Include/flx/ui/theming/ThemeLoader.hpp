@@ -9,7 +9,7 @@ namespace flx::ui::theming {
 /**
  * @brief Loads ThemeDefinition objects from JSON files.
  *
- * Parses JSON theme files (e.g. from SD card `/sdcard/themes/*.json`)
+ * Parses JSON theme files (e.g. from SD card `/sdcard/themes/` directory)
  * into `ThemeDefinition` structs that can be registered in `ThemeRegistry`.
  *
  * JSON schema:

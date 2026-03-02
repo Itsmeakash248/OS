@@ -198,6 +198,7 @@ static bool parseRoot(cJSON* root, ThemeDefinition& def) {
 	readBool(root, "dark", def.dark);
 
 	// Start with sensible defaults
+	def.tokens.typography = defaultTypographyTokens();
 	def.tokens.shapes = defaultShapeTokens();
 	def.tokens.motion = defaultMotionTokens();
 	def.tokens.elevation = defaultElevationTokens();

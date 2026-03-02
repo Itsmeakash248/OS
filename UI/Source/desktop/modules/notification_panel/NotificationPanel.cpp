@@ -59,6 +59,7 @@ void NotificationPanel::create() {
 
 	lv_obj_t* title = lv_label_create(header);
 	lv_label_set_text(title, "Notifications");
+	lv_obj_add_style(title, flx::ui::theming::StyleStore::getInstance().textHeadlineSmall(), 0);
 
 	m_clearAllBtn = lv_button_create(header);
 	lv_obj_set_size(m_clearAllBtn, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
@@ -147,6 +148,7 @@ void NotificationPanel::update_list() {
 
 		lv_obj_t* title_lbl = lv_label_create(header_cont);
 		lv_label_set_text(title_lbl, n.title.c_str());
+		lv_obj_add_style(title_lbl, flx::ui::theming::StyleStore::getInstance().textTitleMedium(), 0);
 
 		lv_obj_t* time_lbl = lv_label_create(header_cont);
 		time_t ts = n.timestamp;
@@ -157,6 +159,7 @@ void NotificationPanel::update_list() {
 
 		lv_obj_t* msg_lbl = lv_label_create(content);
 		lv_label_set_text(msg_lbl, n.message.c_str());
+		lv_obj_add_style(msg_lbl, flx::ui::theming::StyleStore::getInstance().textBodySmall(), 0);
 		lv_label_set_long_mode(msg_lbl, LV_LABEL_LONG_WRAP);
 		lv_obj_set_width(msg_lbl, lv_pct(100));
 		lv_obj_set_style_text_opa(msg_lbl, UiConstants::OPA_70, 0);

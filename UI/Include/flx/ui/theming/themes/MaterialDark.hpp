@@ -56,6 +56,7 @@ inline ThemeDefinition materialDark() {
 	c.background = lv_color_hex(0x1C1B1F);
 	c.onBackground = lv_color_hex(0xE6E1E5);
 
+	def.tokens.typography = defaultTypographyTokens();
 	def.tokens.shapes = defaultShapeTokens();
 	def.tokens.motion = defaultMotionTokens();
 	def.tokens.elevation = defaultElevationTokens();

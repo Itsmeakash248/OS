@@ -134,6 +134,7 @@ void Desktop::init() {
 		if (m_wallpaper) {
 			m_greetings = lv_label_create(m_wallpaper);
 			lv_label_set_text(m_greetings, "Hey !");
+			lv_obj_add_style(m_greetings, flx::ui::theming::StyleStore::getInstance().textDisplaySmall(), 0);
 			lv_obj_align_to(m_greetings, m_dock, LV_ALIGN_OUT_TOP_RIGHT, -lv_dpx(UiConstants::OFFSET_TINY), -lv_dpx(UiConstants::OFFSET_TINY));
 		}
 

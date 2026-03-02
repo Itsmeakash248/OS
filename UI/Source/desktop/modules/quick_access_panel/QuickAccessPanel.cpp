@@ -100,6 +100,7 @@ void QuickAccessPanel::buildHeader() {
 	lv_obj_t* label = lv_label_create(header_cont);
 	if (label) {
 		lv_label_set_text(label, "Quick Access");
+		lv_obj_add_style(label, flx::ui::theming::StyleStore::getInstance().textHeadlineSmall(), 0);
 	}
 
 	lv_obj_t* settings_btn = lv_button_create(header_cont);

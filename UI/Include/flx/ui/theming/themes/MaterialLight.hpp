@@ -56,6 +56,7 @@ inline ThemeDefinition materialLight() {
 	c.background = lv_color_white();
 	c.onBackground = lv_palette_darken(LV_PALETTE_GREY, 4);
 
+	def.tokens.typography = defaultTypographyTokens();
 	def.tokens.shapes = defaultShapeTokens();
 	def.tokens.motion = defaultMotionTokens();
 	def.tokens.elevation = defaultElevationTokens();

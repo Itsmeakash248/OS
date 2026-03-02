@@ -60,6 +60,7 @@ inline ThemeDefinition nord() {
 	c.background = lv_color_hex(0x2E3440); // nord0
 	c.onBackground = lv_color_hex(0xECEFF4); // nord6
 
+	def.tokens.typography = defaultTypographyTokens();
 	def.tokens.shapes = defaultShapeTokens();
 	def.tokens.motion = defaultMotionTokens();
 	def.tokens.elevation = defaultElevationTokens();

@@ -56,6 +56,7 @@ inline ThemeDefinition hyprland() {
 	c.background = lv_color_hex(0x11111B);
 	c.onBackground = lv_color_white();
 
+	def.tokens.typography = defaultTypographyTokens();
 	def.tokens.shapes = defaultShapeTokens();
 	def.tokens.motion = defaultMotionTokens();
 	def.tokens.elevation = defaultElevationTokens();

@@ -256,7 +256,19 @@ void ThemeEngine::apply_theme(ThemeType theme, lv_display_t* disp) {
 
 	// Legacy compat: derive primary/secondary for lv_theme_default_init
 	ThemeConfig cfg = Themes::GetConfig(theme);
-	lv_theme_t* base_th = lv_theme_default_init(disp, cfg.primary, cfg.secondary, def->dark, LV_FONT_DEFAULT);
+
+	// Use the theme's typography tokens for font_normal (bodyMedium = 14px)
+	const lv_font_t* font_normal = tokens.typography.bodyMedium.font ? tokens.typography.bodyMedium.font : LV_FONT_DEFAULT;
+	lv_theme_t* base_th = lv_theme_default_init(disp, cfg.primary, cfg.secondary, def->dark, font_normal);
+
+	// Set font_small (12px) and font_large (18px) on the LVGL theme so that
+	// built-in widgets (msgbox, list, etc.) pick up the correct sizes.
+	if (tokens.typography.labelSmall.font) {
+		base_th->font_small = tokens.typography.labelSmall.font;
+	}
+	if (tokens.typography.displayLarge.font) {
+		base_th->font_large = tokens.typography.displayLarge.font;
+	}
 	new_themes_vec.push_back(base_th);
 
 	lv_theme_t* global_th = lv_theme_create();

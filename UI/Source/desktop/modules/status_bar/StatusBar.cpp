@@ -299,6 +299,7 @@ void StatusBar::create() {
 	lv_obj_add_flag(s_overlayLabel, LV_OBJ_FLAG_HIDDEN);
 
 	m_timeLabel = lv_label_create(m_statusBar);
+	lv_obj_add_style(m_timeLabel, flx::ui::theming::StyleStore::getInstance().textLabelSmall(), 0);
 
 	time_t now = 0;
 	struct tm timeinfo = {};

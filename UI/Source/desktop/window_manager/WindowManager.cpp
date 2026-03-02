@@ -147,6 +147,12 @@ void WindowManager::setupWindowHeader(lv_obj_t* win, flx::apps::App* app) {
 	lv_obj_t* header = lv_win_get_header(win);
 	auto& ss = flx::ui::theming::StyleStore::getInstance();
 	lv_obj_add_style(header, ss.windowHeader(), 0);
+
+	// Apply titleMedium typography to the window title label (first child of header)
+	if (lv_obj_get_child_count(header) > 0) {
+		lv_obj_t* title_label = lv_obj_get_child(header, 0);
+		lv_obj_add_style(title_label, ss.textTitleMedium(), 0);
+	}
 	lv_obj_set_height(header, lv_pct(UiConstants::SIZE_WIN_HEADER_PCT));
 	lv_obj_set_style_min_height(header, lv_dpx(UiConstants::SIZE_HEADER), 0);
 	lv_obj_add_flag(header, LV_OBJ_FLAG_EVENT_BUBBLE);
